@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#1f5fa5" />
+<title>活動強力助手2026</title>
+<style>
+  :root{
+    --brand:#1f5fa5; --brand-d:#0c447c; --ink:#1c1c1a; --mut:#6b6a64; --hint:#9a988f;
+    --line:#e6e4dc; --line2:#d2cfc4; --bg:#f6f5f0; --card:#ffffff;
+    --A:#d85a30; --Abg:#faece7; --B:#0f6e56; --Bbg:#e1f5ee; --C:#3c3489; --Cbg:#eeedfe;
+    --r:10px; --r-lg:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI",Roboto,"Noto Sans TC","Microsoft JhengHei",sans-serif;
+    background:var(--bg); color:var(--ink); -webkit-text-size-adjust:100%; line-height:1.6;}
+  button{font-family:inherit; cursor:pointer}
+  input,select,textarea{font-family:inherit; font-size:15px; width:100%; padding:9px 11px;
+    border:1px solid var(--line2); border-radius:8px; background:#fff; color:var(--ink);}
+  input:focus,select:focus,textarea:focus{outline:none; border-color:var(--brand); box-shadow:0 0 0 3px rgba(31,95,165,.12)}
+  textarea{resize:vertical; min-height:70px}
+  .wrap{max-width:920px; margin:0 auto; padding:0 14px 90px}
+
+  .top{position:sticky; top:0; z-index:30; background:var(--brand); color:#fff; padding:10px 14px;
+    display:flex; align-items:center; gap:10px;}
+  .top .logo{font-weight:700; font-size:15px; letter-spacing:.3px; white-space:nowrap}
+  .top .logo small{font-weight:400; opacity:.8; font-size:11px; display:block; letter-spacing:0}
+  .vbadge{font-weight:400; font-size:11px; opacity:.9; margin-left:7px; padding:1px 7px; border:1px solid rgba(255,255,255,.4); border-radius:10px; vertical-align:2px; white-space:nowrap}
+  .top .sp{flex:1}
+  .top select{width:auto; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.35);
+    color:#fff; padding:6px 8px; font-size:13px; max-width:40vw}
+  .top select option{color:#000}
+
+  .card{background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); padding:14px 16px; margin:12px 0}
+  .btn{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line2); background:#fff; color:var(--ink);
+    padding:9px 14px; border-radius:9px; font-size:14px; font-weight:500}
+  .btn:active{transform:scale(.98)}
+  .btn.pri{background:var(--brand); border-color:var(--brand); color:#fff}
+  .btn.sm{padding:6px 10px; font-size:13px}
+  .btn.gho{background:transparent; border-color:transparent; color:var(--brand); padding:6px 4px}
+  .row{display:flex; align-items:center; gap:10px}
+  .muted{color:var(--mut)} .hint{color:var(--hint); font-size:12px} .unset{color:#b9b7ae}
+  h2{font-size:18px; margin:18px 2px 4px} h3{font-size:15px; margin:0}
+  .pill{display:inline-block; font-size:12px; font-weight:600; padding:4px 11px; border-radius:20px; white-space:nowrap}
+  .tag{display:inline-block; font-size:11px; font-weight:600; padding:2px 8px; border-radius:6px}
+  .tag.w{background:var(--Abg); color:var(--A)} .tag.o{background:var(--Cbg); color:var(--C)}
+  .sep{height:1px; background:var(--line); margin:14px 0}
+  .crumb{display:flex; align-items:center; gap:6px; font-size:13px; color:var(--mut); padding:12px 2px 0}
+  .crumb b{color:var(--ink); font-weight:500}
+
+  .evt{display:flex; align-items:center; gap:12px; cursor:pointer}
+  .evt:hover{border-color:var(--line2)}
+  .evt .dt{width:54px; text-align:center; border-right:1px solid var(--line); padding-right:12px; color:var(--brand)}
+  .evt .dt .d{font-size:20px; font-weight:700; line-height:1} .evt .dt .m{font-size:11px; color:var(--mut)}
+  .progbar{height:7px; background:#eceae3; border-radius:20px; overflow:hidden}
+  .progbar>i{display:block; height:100%; background:var(--B); border-radius:20px}
+
+  .phaserow{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:14px 0 8px}
+  .phaserow div{text-align:center; font-size:13px; font-weight:600; padding:7px; border-radius:9px}
+  .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+  .cell{background:var(--card); border:1px solid var(--line); border-radius:11px; padding:10px 10px 9px;
+    cursor:pointer; min-height:92px; display:flex; flex-direction:column}
+  .cell:active{transform:scale(.98)}
+  .cell .ch{display:flex; justify-content:space-between; align-items:center}
+  .cell .code{font-size:11px; font-weight:700; color:var(--hint)}
+  .dotbtn{width:18px; height:18px; border-radius:50%; flex:none; border:2px solid #fff; box-shadow:0 0 0 1px var(--line2); padding:0}
+  .cell .nm{font-size:13.5px; font-weight:600; margin:6px 0 auto; line-height:1.25}
+  .cell .ft{display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--mut); margin-top:7px}
+
+  .legend{display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12px; color:var(--mut); margin-top:12px}
+  .legend span{display:inline-flex; align-items:center; gap:5px}
+  .lgd{width:9px; height:9px; border-radius:50%}
+
+  .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+  .stat{background:var(--bg); border-radius:10px; padding:10px 12px}
+  .stat .k{font-size:11px; color:var(--mut)} .stat .v{font-size:15px; font-weight:700; margin-top:2px}
+
+  .grp{margin:16px 0 4px; font-size:13px; font-weight:600; color:var(--brand); display:flex; align-items:center; gap:7px}
+  .grp::before{content:""; width:4px; height:14px; background:var(--brand); border-radius:2px}
+  .fld{margin:11px 0}
+  .fld label{display:block; font-size:13px; color:var(--ink); margin-bottom:5px; font-weight:500}
+  .chips{display:flex; flex-wrap:wrap; gap:7px}
+  .chk{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line2); border-radius:20px;
+    padding:6px 12px; font-size:13px; cursor:pointer; user-select:none; background:#fff}
+  .chk input{width:auto; margin:0}
+  .chk.on{border-color:var(--brand); background:#eef4fb; color:var(--brand-d)}
+
+  /* 狀態：單一循環按鈕 */
+  .stbtn{display:flex; align-items:center; gap:9px; width:100%; border:2px solid var(--line2); border-radius:10px;
+    padding:13px 14px; font-size:15px; font-weight:600; background:#fff; color:var(--ink)}
+  .stbtn .dot{width:14px; height:14px; border-radius:50%; flex:none}
+  .stbtn .stnext{margin-left:auto; font-size:12px; color:var(--mut); font-weight:400}
+  .stbtn.inline{width:auto; min-width:118px; padding:9px 13px; font-size:14px; height:38px}
+
+  /* 預算逐項 */
+  .qchip{font-size:12px; padding:5px 10px; border:1px solid var(--line2); border-radius:16px; background:#fff;
+    color:var(--brand-d); margin:0 6px 6px 0}
+  .qchip.cust{border-style:dashed; color:var(--mut)}
+  .liquick{margin:2px 0 8px; line-height:2}
+  .lirow{display:flex; gap:6px; align-items:center; margin:6px 0}
+  .lirow input{padding:7px 8px; font-size:14px}
+  .li-name{flex:2; min-width:0} .li-qty{width:48px; flex:none; text-align:center; padding-left:2px!important; padding-right:2px!important}
+  .li-note{flex:1; min-width:0} .li-amt{width:86px; flex:none; text-align:right}
+  .li-del{flex:none; width:30px; height:34px; padding:0; border:1px solid var(--line2); border-radius:8px; background:#fff; color:#e24b4a; font-size:13px}
+  .lisum{text-align:right; font-size:13px; color:var(--ink); font-weight:600; margin-top:4px}
+
+  .catToggle{display:flex; gap:8px; margin-top:4px}
+  .cattab{flex:1; padding:12px; border:1.5px solid var(--line2); border-radius:10px; background:#fff; font-size:15px; font-weight:500; color:var(--ink)}
+  .cattab.on{border-color:var(--brand); background:#eef4fb; color:var(--brand-d)}
+
+  .savebar{position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--line);
+    padding:10px 14px; display:flex; gap:10px; z-index:25}
+  .savebar .wrap2{max-width:920px; margin:0 auto; width:100%; display:flex; gap:10px}
+
+  .mask{position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:50; display:flex; align-items:flex-end; justify-content:center}
+  .modal{background:#fff; width:100%; max-width:920px; border-radius:16px 16px 0 0; padding:18px 16px calc(18px + env(safe-area-inset-bottom)); max-height:88vh; overflow:auto}
+  @media(min-width:600px){ .mask{align-items:center} .modal{border-radius:16px} }
+  .ver{text-align:center; color:var(--hint); font-size:11px; padding:18px 0 0}
+  .badge2{font-size:11px; background:#fff4e0; color:#854f0b; border:1px solid #f3d8a0; padding:3px 8px; border-radius:6px}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="logo" id="brandName">活動強力助手2026</div>
+  <div class="sp"></div>
+  <select id="orgSel" title="組織"></select>
+  <select id="roleSel" title="目前身分"></select>
+</div>
+<div class="wrap" id="app"></div>
+
+<script>
+/* ============================================================
+   2026 活動智能管理工具  —  MVP (本機版 / localStorage)
+   架構：schema-driven + 多組織(多租戶) → 模組化、可白標
+   活動分「公益活動 / 組織活動」，自動切換顯示的欄位
+   後續：接 Firebase(登入+授權名單+即時同步) → LINE 通知
+   ============================================================ */
+const APP_VERSION = 'v0.3.0';
+
+/* 品牌設定：白標時只改這一塊 ------------------------------------ */
+const BRAND = { name:'活動強力助手2026', primary:'#1f5fa5' };
+
+/* 狀態燈號（規格 §6） ------------------------------------------- */
+const STATUS = {
+  not:    {label:'未開始', color:'#b4b2a9'},
+  plan:   {label:'規劃中', color:'#378add'},
+  done:   {label:'已完成', color:'#2fa36b'},
+  follow: {label:'需跟進', color:'#ef9f27'},
+  alert:  {label:'異常',   color:'#e24b4a'},
+  archived:{label:'已歸檔', color:'#7f77dd'},
+};
+const STATUS_ORDER = ['not','plan','done','follow','alert','archived'];
+function nextStatus(s){ const i=STATUS_ORDER.indexOf(s); return STATUS_ORDER[(i+1)%STATUS_ORDER.length]; }
+
+/* 權限角色——MVP 先做身分切換，實際權限等接 Firebase */
+const ROLES = ['負責人/主席','活動總召','財務','組長','成員','一般參與者'];
+
+/* 活動性質 與 類型 --------------------------------------------- */
+const CATEGORIES = ['公益活動','組織活動'];
+const TYPES = {
+  '公益活動':['公益服務','環保淨灘','關懷訪視','捐血活動','物資募集','社區服務','其他公益'],
+  '組織活動':['會員大會','會員聯誼','教育訓練','商務交流','企業參訪','典禮頒獎','內部會議','其他'],
+};
+
+/* 三階段顏色 ---------------------------------------------------- */
+const PHASES = {
+  A:{name:'活動前', color:'var(--A)', bg:'var(--Abg)'},
+  B:{name:'活動中', color:'var(--B)', bg:'var(--Bbg)'},
+  C:{name:'活動後', color:'var(--C)', bg:'var(--Cbg)'},
+};
+
+/* ============================================================
+   SCHEMA —— 十二宮格欄位設定（核心，可白標替換）
+   欄位語法： "名稱"  |  "名稱|型別"  |  "名稱|型別|選項1,選項2"  |  "名稱|型別|選項|w"
+   型別：text(預設) area num money date select multi bool person photo lineitems
+   group 加 cat:'welfare' → 只在「公益活動」顯示；欄位第4段 'w' 同理
+   ============================================================ */
+const SCHEMA = {
+  /* ---------- A. 活動前 ---------- */
+  A1:{phase:'A', title:'流程策劃', purpose:'確認活動為什麼辦、怎麼辦、服務誰、做到什麼程度算成功。', groups:[
+    {g:'活動基本資料', f:['活動名稱','活動日期|date','活動時間','活動地點','主辦單位']},
+    {g:'活動目的', f:['為什麼要辦|area','希望解決什麼問題|area','希望帶來什麼影響|area','是否符合宗旨與方向|bool']},
+    {g:'公益活動專屬欄位', cat:'welfare', f:['公益對象|multi|兒童,長者,弱勢家庭,身心障礙者,社區居民,環境保護,其他','受益單位','預計服務人數|num','預計志工人數|num','預計物資數量|num','預計公益成果|area']},
+    {g:'活動流程', f:['報到時間','開場時間','主活動流程|area','中場休息','合照安排','結尾致詞','撤場時間']},
+    {g:'成功指標', f:['參與人數|num','服務人數|num||w','募款金額|money','物資數量|num','志工時數|num||w','社群曝光','滿意度','後續合作機會|area']},
+  ]},
+  A2:{phase:'A', title:'組織架構', purpose:'確認誰負責、誰協助、誰決策、誰回報。', groups:[
+    {g:'核心幹部', f:['活動總召|person','副總召|person','顧問／督導|person','財務負責人|person','紀錄負責人|person','最終決策人|person']},
+    {g:'工作小組', f:['本次成立小組|multi|企劃組,場務組,志工組,財務組,攝影紀錄組,宣傳設計組,對外聯絡組,貴賓接待組,安全機動組,後勤物資組']},
+    {g:'人員責任', f:['負責人姓名|person','協助人姓名|person','LINE 聯絡方式','任務內容|area','截止日期|date','回報方式','代理人設定']},
+    {g:'回報機制', f:['回報頻率','回報群組','異常回報流程|area','總召確認|bool','主管掌握事項|area']},
+  ]},
+  A3:{phase:'A', title:'預算審理', purpose:'活動還沒開始前，就讓預估收入、支出清楚透明。', groups:[
+    {g:'預估收入', f:['|lineitems|分會補助,報名費收入,現金贊助,物資贊助,服務贊助,其他收入']},
+    {g:'預估支出', f:['|lineitems|場地費,餐飲費,交通費,保險費,文宣印刷費,活動器材費,攝影紀錄費,感謝狀費用,雜支,備用金']},
+  ]},
+  A4:{phase:'A', title:'宣傳溝通與風險控管', purpose:'避免資訊沒傳到、報名混亂、天候突變、場地問題、安全問題。', groups:[
+    {g:'宣傳規劃', f:['宣傳主軸','活動海報|photo','報名表單','社群貼文|area','LINE 公告|area','邀約文案|area','贊助曝光方式']},
+    {g:'參與者通知', f:['活動前通知|area','活動前一天提醒|area','集合地點','停車資訊','服裝規定','攜帶物品','注意事項|area']},
+    {g:'公益活動風險', cat:'welfare', f:['是否需保險|bool','是否需家長同意|bool','是否涉及兒少影像|bool','是否涉及長者安全|bool','是否戶外高溫|bool','是否雨天備案|bool','是否需醫療支援|bool']},
+    {g:'影像授權', f:['是否可拍照|bool','是否可公開社群|bool','是否需遮臉|bool','是否需當事人同意|bool','不可公開照片註記|area']},
+    {g:'緊急備案', f:['雨天備案|area','延期標準','活動取消標準','緊急聯絡人','醫療包','最近醫院','突發事件處理人|person']},
+  ]},
+  /* ---------- B. 活動中 ---------- */
+  B1:{phase:'B', title:'場佈執行', purpose:'確保活動現場在開始前準備完成。', groups:[
+    {g:'場地確認', f:['場地開放時間','場佈開始時間','場地負責窗口','電力位置','水源位置','廁所位置','停車位置']},
+    {g:'現場配置', f:['規劃區域|multi|報到區,主舞台,貴賓席,休息區,物資區,攝影區,餐飲區,指引牌,合照區']},
+    {g:'設備物資', f:['準備清單|multi|桌椅,帳篷,音響,麥克風,投影設備,延長線,飲水,報到表,名牌,活動物資']},
+    {g:'場佈確認', f:['場佈負責人|person','完成時間','缺漏項目|area','補救方式|area','總召確認|bool']},
+  ]},
+  B2:{phase:'B', title:'分工執行', purpose:'讓每一組、每一個人都知道自己的任務。', groups:[
+    {g:'報到組', f:['負責人|person','工作項目|multi|會友報到,來賓報到,志工報到,簽到表,名牌發放']},
+    {g:'接待組', f:['負責人|person','工作項目|multi|貴賓接待,合作單位接待,贊助商接待,服務對象接待']},
+    {g:'場控組', f:['負責人|person','工作項目|multi|流程控管,主持人提醒,時間提醒,麥克風安排,臨時流程調整']},
+    {g:'志工服務組', cat:'welfare', f:['負責人|person','工作項目|multi|志工集合,任務說明,分組服務,服務對象陪同,志工時數紀錄']},
+    {g:'攝影紀錄組', f:['負責人|person','工作項目|multi|活動全景,幹部合照,服務畫面,贊助商曝光,成果照片,不可公開照片註記']},
+    {g:'機動支援組', f:['負責人|person','工作項目|multi|臨時採買,人力支援,場地協助,交通引導,突發狀況處理']},
+  ]},
+  B3:{phase:'B', title:'周邊協調', purpose:'處理活動中所有外部單位、場地方、廠商、交通、人流與貴賓動線。', groups:[
+    {g:'外部窗口', f:['場地方窗口','合作單位窗口','社福單位窗口','學校窗口','政府窗口','里長／社區窗口','贊助商窗口','媒體窗口']},
+    {g:'交通協調', f:['停車位置','車輛動線','接駁安排','貨車卸貨區','交通指引人員|person']},
+    {g:'廠商協調', f:['餐飲廠商','音響廠商','攝影廠商','印刷廠商','器材租借','臨時採買']},
+    {g:'貴賓與合作單位', f:['貴賓到場時間','致詞安排','合照安排','贈禮安排','媒體受訪','後續聯絡']},
+  ]},
+  B4:{phase:'B', title:'現場控管與即時紀錄', purpose:'活動當天的中控中心，讓總召即時知道人、錢、物、事是否正常。', groups:[
+    {g:'現場總控', f:['現場總控人|person','LINE 指揮群','現場狀態|select|正常,注意,異常,緊急','問題回報人|person','總召確認|bool']},
+    {g:'人員紀錄', f:['預計報名人數|num','實際報到人數|num','未到人員|area','臨時加入人員|area','志工人數|num','貴賓到場紀錄|area']},
+    {g:'公益成果即時紀錄', cat:'welfare', f:['實際服務人數|num','物資發放數量|num','清理重量(kg)|num','志工服務時數|num','募款金額|money','受益單位回饋|area','現場亮點|area']},
+    {g:'異常紀錄', f:['物資短缺|area','人力不足|area','流程延誤|area','天候問題|area','醫療安全事件|area','臨時支出|area','其他突發狀況|area']},
+    {g:'現場附件', f:['現場照片|photo','現場影片|photo','收據照片|photo','簽到表照片|photo','物資交接照片|photo','重要紀錄截圖|photo']},
+  ]},
+  /* ---------- C. 活動後 ---------- */
+  C1:{phase:'C', title:'實支開銷', purpose:'整理活動實際收入、實際支出、贊助、核銷與結餘。', groups:[
+    {g:'實際收入', f:['|lineitems|分會補助,報名費收入,現金贊助,物資贊助估值,服務贊助估值,其他收入']},
+    {g:'實際支出', f:['|lineitems|場地費,餐飲費,交通費,保險費,文宣印刷費,器材費,攝影費,感謝狀費用,雜支,臨時支出']},
+    {g:'預算差異', f:['原預算|money','實際支出合計|money','差異金額|money','超支原因|area','節省原因|area','下次建議|area']},
+    {g:'憑證管理', f:['發票|photo','收據|photo','匯款紀錄|photo','現金支出紀錄|photo','贊助證明|photo','核銷附件|photo']},
+    {g:'財務結案', f:['應付款項|money','應退款項|money','結餘金額|money','財務審核|bool','主管確認|bool','結案日期|date']},
+  ]},
+  C2:{phase:'C', title:'AAR 覆盤', purpose:'透過活動後檢討，把經驗變成下一次活動的資產。', groups:[
+    {g:'目標回顧', f:['原本活動目標|area','實際完成結果|area','是否達標|bool','未達標原因|area','超出預期成果|area']},
+    {g:'四大問題', f:['原本預期會發生什麼|area','實際發生了什麼|area','為什麼會有落差|area','下次要怎麼改善|area']},
+    {g:'執行檢討', f:['流程是否順暢|bool','分工是否清楚|bool','場地是否合適|bool','人力是否足夠|bool','預算是否合理|bool','宣傳是否有效|bool','風險控管是否完整|bool']},
+    {g:'公益成效檢討', cat:'welfare', f:['服務對象是否真正受益|bool','公益成果是否可量化|bool','合作單位回饋|area','贊助商回饋|area','社區反應|area','後續可延伸合作|area']},
+    {g:'下次改善', f:['可以保留的做法|area','必須修正的問題|area','需要新增的資源|area','可培養的人才','下次活動建議|area','SOP 更新事項|area']},
+  ]},
+  C3:{phase:'C', title:'致謝感謝', purpose:'維繫關係、感謝貢獻、建立下一次合作基礎。', groups:[
+    {g:'感謝對象', f:['對象|multi|贊助商,合作單位,志工,會友,貴賓,受益單位,場地方,廠商']},
+    {g:'感謝方式', f:['方式|multi|LINE 感謝訊息,社群公開感謝,感謝狀,成果報告,活動照片分享,實體拜訪,後續邀約']},
+    {g:'贊助管理', f:['贊助人／單位','贊助類型|multi|現金,物資,場地,餐飲,攝影,其他服務','贊助金額或估值|money','是否需要收據|bool','是否需要成果回報|bool','是否公開致謝|bool']},
+    {g:'贊助商回饋', f:['贊助露出紀錄|area','社群貼文連結','合照照片|photo','成果數據|area','感謝狀寄送|bool','下次合作邀約']},
+    {g:'人員回饋', f:['感謝訊息|area','服務時數|num','優秀夥伴紀錄|area','可培養幹部名單|area','下次邀請名單|area']},
+  ]},
+  C4:{phase:'C', title:'成果歸檔與傳承', purpose:'把活動成果、照片、紀錄、SOP 留下來，讓下一屆不用重新摸索。', groups:[
+    {g:'成果資料', f:['活動成果報告|area','服務成果數據|area||w','參與人數|num','志工人數|num||w','志工服務時數|num||w','募款金額|money','物資發放數量|num','媒體曝光','後續合作|area']},
+    {g:'影像資料', f:['活動照片連結','活動影片連結','精選照片|photo','不可公開照片|area','社群貼文素材|area','下次宣傳素材|area']},
+    {g:'文件資料', f:['活動企劃書|photo','預算表|photo','實支表|photo','報名名單|photo','簽到表|photo','人員名單|photo','贊助名單|photo','感謝名單|photo','AAR 覆盤紀錄|photo']},
+    {g:'傳承資料', f:['可複製 SOP|area','下次活動提醒|area','注意事項|area','推薦合作單位','推薦廠商','可培養幹部','下屆交接重點|area']},
+    {g:'最終歸檔', f:['雲端資料夾','權限設定','檔案命名規則','最終審核人|person','歸檔完成日期|date','是否可作為下次模板|bool']},
+  ]},
+};
+const CODES = ['A1','A2','A3','A4','B1','B2','B3','B4','C1','C2','C3','C4'];
+const GRID_ORDER = [];
+for(let r=1;r<=4;r++) for(const p of ['A','B','C']) GRID_ORDER.push(p+r);
+
+/* ============================================================
+   資料儲存（localStorage；之後換成 Firestore 介面相同）
+   ============================================================ */
+const KEY='qsc3x4_db_v2';
+let DB = load();
+
+function load(){
+  try{ const d=JSON.parse(localStorage.getItem(KEY)); if(d&&d.orgs) return d; }catch(e){}
+  return seed();
+}
+function save(){ localStorage.setItem(KEY, JSON.stringify(DB)); }
+function uid(){ return 'id'+Math.random().toString(36).slice(2,9); }
+function blankModules(){ const m={}; CODES.forEach(c=> m[c]={status:'not', owner:'', values:{}}); return m; }
+
+function seed(){
+  const orgId=uid(), evId=uid();
+  const ev={ id:evId, orgId, name:'淨灘公益服務 2026', category:'公益活動', type:'環保淨灘',
+    date:'2026-07-19', place:'西子灣', lead:'阿哲', modules:blankModules() };
+  ev.modules.A1={status:'done', owner:'阿哲', values:{'活動基本資料::活動名稱':'淨灘公益服務 2026','活動基本資料::活動日期':'2026-07-19','活動基本資料::活動地點':'西子灣','公益活動專屬欄位::預計服務人數':'120','成功指標::服務人數':'120','成功指標::募款金額':'30000'}};
+  ev.modules.A2={status:'done', owner:'阿哲', values:{'核心幹部::活動總召':'阿哲','核心幹部::財務負責人':'美玲'}};
+  ev.modules.A3={status:'follow', owner:'美玲', values:{
+    '預估收入::':[{name:'分會補助',qty:'',note:'',amount:20000},{name:'現金贊助',qty:'',note:'廠商A',amount:15000}],
+    '預估支出::':[{name:'場地費',qty:'',note:'',amount:5000},{name:'餐飲費',qty:'120',note:'便當',amount:8000},{name:'文宣印刷費',qty:'',note:'布條',amount:3000}],
+  }};
+  ev.modules.A4={status:'plan', owner:'怡君', values:{}};
+  ev.modules.B1={status:'plan', owner:'小張', values:{}};
+  ev.modules.B2={status:'plan', owner:'小張', values:{}};
+  return { orgs:[{id:orgId, name:'高雄市青商會'}], events:[ev], ui:{ orgId, role:'活動總召' } };
+}
+
+/* ============================================================
+   App 狀態與路由
+   ============================================================ */
+const state = { view:'events', eventId:null, code:null };
+function currentOrg(){ return DB.orgs.find(o=>o.id===DB.ui.orgId) || DB.orgs[0]; }
+function orgEvents(){ const o=currentOrg(); return DB.events.filter(e=>e.orgId===o.id); }
+function getEvent(id){ return DB.events.find(e=>e.id===id); }
+function isWelfare(e){ return (e.category||'公益活動')==='公益活動'; }
+
+function parseField(s){ const p=s.split('|'); return { label:p[0], type:p[1]||'text', options:p[2]?p[2].split(','):[], cat:p[3]||'' }; }
+function moduleFields(code, welfare){
+  const out=[]; SCHEMA[code].groups.forEach(gr=>{
+    if(gr.cat==='welfare' && !welfare) return;
+    gr.f.forEach(fs=>{ const f=parseField(fs); if(f.cat==='w'&&!welfare) return; out.push({...f, group:gr.g, key:gr.g+'::'+f.label}); });
+  }); return out;
+}
+function computeProgress(code, values, welfare){
+  const fs=moduleFields(code, welfare); if(!fs.length) return 0;
+  let filled=0;
+  fs.forEach(f=>{ const v=values[f.key];
+    if(f.type==='multi'||f.type==='lineitems'){ if(Array.isArray(v)&&v.length) filled++; }
+    else if(f.type==='bool'){ if(v===true) filled++; }
+    else if(v!==undefined && v!==null && String(v).trim()!=='') filled++;
+  });
+  return Math.round(100*filled/fs.length);
+}
+function sumLineItems(values, group){
+  const arr=values[group+'::']; let s=0;
+  if(Array.isArray(arr)) arr.forEach(r=>{ const n=parseFloat(r.amount); if(!isNaN(n)) s+=n; });
+  return s;
+}
+function nt(n){ return 'NT$ '+Math.round(n).toLocaleString('en-US'); }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* ============================================================
+   Render
+   ============================================================ */
+const app=document.getElementById('app');
+function render(){
+  document.getElementById('brandName').innerHTML = esc(BRAND.name)+'<span class="vbadge">'+APP_VERSION+'</span>';
+  renderOrgRole();
+  if(state.view==='events') return renderEvents();
+  if(state.view==='dashboard') return renderDashboard();
+  if(state.view==='module') return renderModule();
+}
+function renderOrgRole(){
+  const os=document.getElementById('orgSel');
+  os.innerHTML = DB.orgs.map(o=>`<option value="${o.id}" ${o.id===DB.ui.orgId?'selected':''}>${esc(o.name)}</option>`).join('')
+    + `<option value="__new">＋ 新增組織…</option>`;
+  const rs=document.getElementById('roleSel');
+  rs.innerHTML = ROLES.map(r=>`<option ${r===DB.ui.role?'selected':''}>${esc(r)}</option>`).join('');
+}
+
+/* ---------- 活動列表 ---------- */
+function renderEvents(){
+  const evs=orgEvents();
+  app.innerHTML = `
+    <div class="crumb"><b>${esc(currentOrg().name)}</b> · 活動列表</div>
+    <div class="row" style="margin:14px 2px 4px; justify-content:space-between">
+      <h2 style="margin:0">活動 <span class="muted" style="font-size:14px">(${evs.length})</span></h2>
+      <button class="btn pri sm" onclick="newEvent()">＋ 新增活動</button>
+    </div>
+    ${evs.length? evs.map(evtCard).join('') : `<div class="card muted">這個組織還沒有活動，點右上「新增活動」開始第一場。</div>`}
+    <div class="row" style="gap:8px; margin-top:10px">
+      <button class="btn sm gho" onclick="exportDB()">匯出備份</button>
+      <button class="btn sm gho" onclick="importDB()">匯入備份</button>
+    </div>
+    <div class="card" style="border-style:dashed; background:#fafbfd">
+      <div class="row" style="justify-content:space-between"><h3>LINE 通知</h3><span class="badge2">第二階段</span></div>
+      <p class="hint" style="margin:6px 0 0">活動公告、任務提醒、前 7/3/1 天提醒、感謝訊息將在第二階段接入（走「群組 1 則 + @tag」最省額度）。</p>
+    </div>
+    <div class="ver">${esc(BRAND.name)} ${APP_VERSION} · 本機版（資料存在這台裝置）</div>`;
+}
+function evtCard(e){
+  const w=isWelfare(e); const prog=overallProgress(e); const st=eventPhaseLabel(e);
+  const [y,m,d]=(e.date||'----  - -').split('-');
+  return `<div class="card evt" onclick="openEvent('${e.id}')">
+    <div class="dt"><div class="d">${d||'--'}</div><div class="m">${m?m+'月':''}</div></div>
+    <div style="flex:1; min-width:0">
+      <div class="row" style="justify-content:space-between"><h3 style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(e.name)}</h3>
+        <span class="pill" style="background:${st.bg};color:${st.color}">${st.txt}</span></div>
+      <div class="hint" style="margin:4px 0 8px"><span class="tag ${w?'w':'o'}">${w?'公益':'組織'}</span> ${esc(e.type||'')}　${esc(e.place||'')}　總召 ${esc(e.lead||'-')}</div>
+      <div class="progbar"><i style="width:${prog}%"></i></div>
+      <div class="hint" style="margin-top:4px">整體進度 ${prog}%</div>
+    </div></div>`;
+}
+function overallProgress(e){ let s=0; const w=isWelfare(e); CODES.forEach(c=> s+=computeProgress(c, e.modules[c].values, w)); return Math.round(s/CODES.length); }
+function eventPhaseLabel(e){
+  const aDone=['A1','A2','A3','A4'].every(c=>e.modules[c].status==='done'||e.modules[c].status==='archived');
+  const arch=CODES.every(c=>e.modules[c].status==='archived');
+  if(arch) return {txt:'已歸檔', bg:'#eee', color:'#7f77dd'};
+  if(aDone) return {txt:'活動中', bg:'var(--Bbg)', color:'var(--B)'};
+  return {txt:'活動前 · 籌備中', bg:'var(--Abg)', color:'var(--A)'};
+}
+
+/* ---------- 儀表板（十二宮格） ---------- */
+function renderDashboard(){
+  const e=getEvent(state.eventId); if(!e){ state.view='events'; return render(); }
+  const w=isWelfare(e); const prog=overallProgress(e);
+  const estIn=sumLineItems(e.modules.A3.values,'預估收入'), estOut=sumLineItems(e.modules.A3.values,'預估支出');
+  const actIn=sumLineItems(e.modules.C1.values,'實際收入'), actOut=sumLineItems(e.modules.C1.values,'實際支出');
+  app.innerHTML = `
+    <div class="crumb"><a class="btn gho" style="padding:0" onclick="goEvents()">← 活動</a><span>/</span><b>${esc(e.name)}</b></div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between; align-items:flex-start">
+        <div><h3 style="font-size:17px">${esc(e.name)}</h3>
+          <div class="hint" style="margin-top:5px"><span class="tag ${w?'w':'o'}">${w?'公益活動':'組織活動'}</span> ${esc(e.type||'')}　📅 ${esc(e.date||'-')}　📍 ${esc(e.place||'-')}　總召 ${esc(e.lead||'-')}</div></div>
+        <button class="btn sm gho" onclick="editEvent('${e.id}')">編輯</button>
+      </div>
+      <div style="margin-top:12px">
+        <div class="row" style="justify-content:space-between"><span class="hint">整體任務進度</span><b>${prog}%</b></div>
+        <div class="progbar" style="margin-top:5px"><i style="width:${prog}%"></i></div>
+      </div>
+    </div>
+    <div class="phaserow">
+      <div style="color:var(--A);background:var(--Abg)">A · 活動前</div>
+      <div style="color:var(--B);background:var(--Bbg)">B · 活動中</div>
+      <div style="color:var(--C);background:var(--Cbg)">C · 活動後</div>
+    </div>
+    <div class="grid">${GRID_ORDER.map(c=>cellHTML(e,c,w)).join('')}</div>
+    <div class="legend">${STATUS_ORDER.map(k=>`<span><i class="lgd" style="background:${STATUS[k].color}"></i>${STATUS[k].label}</span>`).join('')}　<span class="hint">點燈號可快速切換</span></div>
+
+    <h2>預算速覽</h2>
+    <div class="card">
+      <div class="stats">
+        <div class="stat"><div class="k">預估收入</div><div class="v">${nt(estIn)}</div></div>
+        <div class="stat"><div class="k">預估支出</div><div class="v">${nt(estOut)}</div></div>
+        <div class="stat"><div class="k">預估結餘</div><div class="v" style="color:${estIn-estOut<0?'#e24b4a':'#2fa36b'}">${nt(estIn-estOut)}</div></div>
+      </div>
+      <div class="sep"></div>
+      <div class="stats">
+        <div class="stat"><div class="k">實際收入</div><div class="v">${nt(actIn)}</div></div>
+        <div class="stat"><div class="k">實際支出</div><div class="v">${nt(actOut)}</div></div>
+        <div class="stat"><div class="k">實際結餘</div><div class="v" style="color:${actIn-actOut<0?'#e24b4a':'#2fa36b'}">${nt(actIn-actOut)}</div></div>
+      </div>
+      <p class="hint" style="margin:10px 0 0">數字自動取自 A3 預算審理 與 C1 實支開銷。</p>
+    </div>
+    <div class="ver">${esc(BRAND.name)} ${APP_VERSION}</div>`;
+}
+function cellHTML(e,c,w){
+  const m=e.modules[c]; const s=STATUS[m.status]; const prog=computeProgress(c,m.values,w);
+  const owner = m.owner ? '👤 '+esc(m.owner) : '<span class="unset">未指派</span>';
+  return `<div class="cell" onclick="openModule('${c}')">
+    <div class="ch"><span class="code">${c}</span><button class="dotbtn" style="background:${s.color}" title="${s.label}（點一下換下一個）" onclick="event.stopPropagation();cycleCellStatus('${c}')"></button></div>
+    <div class="nm">${esc(SCHEMA[c].title)}</div>
+    <div class="ft"><span>${owner}</span><span class="${prog?'':'unset'}">${prog}%</span></div>
+  </div>`;
+}
+function cycleCellStatus(c){ const e=getEvent(state.eventId); const m=e.modules[c]; m.status=nextStatus(m.status); save(); renderDashboard(); }
+
+/* ---------- 宮格詳情（schema 表單） ---------- */
+let FIELD_META=[]; let _pickStatus=null;
+function renderModule(){
+  const e=getEvent(state.eventId); const c=state.code; const sc=SCHEMA[c]; const m=e.modules[c];
+  const ph=PHASES[sc.phase]; const w=isWelfare(e);
+  FIELD_META=[];
+  let body='';
+  sc.groups.forEach(gr=>{
+    if(gr.cat==='welfare' && !w) return;
+    let fh=''; let any=false;
+    gr.f.forEach(fs=>{
+      const f=parseField(fs); if(f.cat==='w'&&!w) return;
+      const key=gr.g+'::'+f.label; const idx=FIELD_META.length;
+      FIELD_META.push({key, type:f.type, idx});
+      fh+=fieldHTML(f, key, idx, m.values[key]); any=true;
+    });
+    if(any) body+=`<div class="grp">${esc(gr.g)}</div>`+fh;
+  });
+  app.innerHTML = `
+    <div class="crumb"><a class="btn gho" style="padding:0" onclick="openEvent('${e.id}')">← ${esc(e.name)}</a><span>/</span><b>${c} ${esc(sc.title)}</b></div>
+    <div class="card" style="border-left:4px solid ${ph.color}">
+      <div class="row" style="justify-content:space-between"><h3>${c}　${esc(sc.title)}</h3>
+        <span class="pill" style="background:${ph.bg};color:${ph.color}">${ph.name}</span></div>
+      <p class="hint" style="margin:6px 0 0">${esc(sc.purpose)}</p>
+    </div>
+    <div class="card">
+      <div class="row" style="gap:12px; align-items:flex-end">
+        <div style="flex:1; min-width:0">
+          <label style="font-size:13px;font-weight:500;display:block;margin-bottom:5px">負責人</label>
+          <input id="ownerInput" value="${esc(m.owner||'')}" placeholder="負責人姓名">
+        </div>
+        <div style="flex:none">
+          <label style="font-size:13px;font-weight:500;display:block;margin-bottom:5px">狀態（點一下換）</label>
+          <button type="button" id="stCycle" class="stbtn inline" title="點一下換下一個狀態" onclick="cycleStatus()"></button>
+        </div>
+      </div>
+    </div>
+    <div class="card">${body}</div>
+    <div style="height:8px"></div>
+    <div class="savebar"><div class="wrap2">
+      <button class="btn" style="flex:none" onclick="openEvent('${e.id}')">取消</button>
+      <button class="btn pri" style="flex:1" onclick="saveModule()">儲存</button>
+    </div></div>`;
+  _pickStatus=m.status; paintStatus();
+  FIELD_META.forEach(f=>{ if(f.type==='lineitems') liSum(f.idx); });
+}
+function paintStatus(){
+  const s=STATUS[_pickStatus]; const b=document.getElementById('stCycle'); if(!b) return;
+  b.style.borderColor=s.color;
+  b.innerHTML=`<span class="dot" style="background:${s.color}"></span>${s.label}`;
+}
+function cycleStatus(){ _pickStatus=nextStatus(_pickStatus); paintStatus(); }
+
+function fieldHTML(f, key, idx, val){
+  const lab = f.label ? `<label>${esc(f.label)}</label>` : '';
+  const id=`fld${idx}`;
+  if(f.type==='lineitems'){
+    const rows=Array.isArray(val)?val:[];
+    const chips=f.options.map(o=>`<button type="button" class="qchip" onclick="liAdd(${idx},'${esc(o)}')">＋${esc(o)}</button>`).join('')
+      + `<button type="button" class="qchip cust" onclick="liAdd(${idx},'')">＋自訂項目</button>`;
+    return `<div class="fld">${lab}
+      <div class="liquick">${chips}</div>
+      <div class="lirows" id="li${idx}">${rows.map(r=>liRowHTML(idx,r)).join('')}</div>
+      <div class="lisum" id="lisum${idx}"></div></div>`;
+  }
+  if(f.type==='area') return `<div class="fld">${lab}<textarea id="${id}">${esc(val||'')}</textarea></div>`;
+  if(f.type==='num'||f.type==='money') return `<div class="fld">${lab}<input id="${id}" type="number" inputmode="decimal" value="${val!=null?esc(val):''}" placeholder="${f.type==='money'?'金額':''}"></div>`;
+  if(f.type==='date') return `<div class="fld">${lab}<input id="${id}" type="date" value="${esc(val||'')}"></div>`;
+  if(f.type==='photo') return `<div class="fld">${lab}<input id="${id}" value="${esc(val||'')}" placeholder="貼上照片/檔案連結（雲端硬碟）"></div>`;
+  if(f.type==='bool') return `<div class="fld"><label class="chk ${val===true?'on':''}" id="${id}_w"><input type="checkbox" id="${id}" ${val===true?'checked':''} onchange="document.getElementById('${id}_w').classList.toggle('on',this.checked)"> ${esc(f.label)}</label></div>`;
+  if(f.type==='select') return `<div class="fld">${lab}<select id="${id}"><option value="">— 請選擇 —</option>${f.options.map(o=>`<option ${val===o?'selected':''}>${esc(o)}</option>`).join('')}</select></div>`;
+  if(f.type==='multi'){ const arr=Array.isArray(val)?val:[];
+    return `<div class="fld">${lab}<div class="chips">${f.options.map(o=>`<label class="chk ${arr.includes(o)?'on':''}"><input type="checkbox" class="m${idx}" value="${esc(o)}" ${arr.includes(o)?'checked':''} onchange="this.closest('.chk').classList.toggle('on',this.checked)"> ${esc(o)}</label>`).join('')}</div></div>`; }
+  return `<div class="fld">${lab}<input id="${id}" value="${esc(val||'')}"></div>`;
+}
+
+/* 預算逐項 */
+function liRowHTML(idx, r){
+  r=r||{};
+  const amt = (r.amount!=null && r.amount!=='') ? esc(r.amount) : '';
+  return `<div class="lirow">
+    <input class="li-name" value="${esc(r.name||'')}" placeholder="項目">
+    <input class="li-qty" value="${esc(r.qty||'')}" placeholder="數量">
+    <input class="li-note" value="${esc(r.note||'')}" placeholder="備註">
+    <input class="li-amt" type="number" inputmode="decimal" value="${amt}" placeholder="金額" oninput="liSum(${idx})">
+    <button type="button" class="li-del" onclick="this.closest('.lirow').remove();liSum(${idx})" aria-label="刪除">✕</button>
+  </div>`;
+}
+function liAdd(idx, name){
+  const c=document.getElementById('li'+idx); if(!c) return;
+  c.insertAdjacentHTML('beforeend', liRowHTML(idx,{name:name}));
+  liSum(idx);
+  const rows=c.querySelectorAll('.lirow'); const last=rows[rows.length-1];
+  (name? last.querySelector('.li-amt') : last.querySelector('.li-name')).focus();
+}
+function liSum(idx){
+  let s=0; document.querySelectorAll('#li'+idx+' .li-amt').forEach(i=>{ const n=parseFloat(i.value); if(!isNaN(n)) s+=n; });
+  const el=document.getElementById('lisum'+idx); if(el) el.textContent='小計 '+nt(s);
+}
+
+function saveModule(){
+  const e=getEvent(state.eventId); const c=state.code; const m=e.modules[c];
+  const values={...m.values};
+  FIELD_META.forEach(f=>{
+    if(f.type==='lineitems'){
+      const arr=[]; document.querySelectorAll('#li'+f.idx+' .lirow').forEach(row=>{
+        const name=row.querySelector('.li-name').value.trim(), qty=row.querySelector('.li-qty').value.trim(),
+          note=row.querySelector('.li-note').value.trim(), amount=row.querySelector('.li-amt').value.trim();
+        if(name||qty||note||amount) arr.push({name,qty,note,amount});
+      });
+      if(arr.length) values[f.key]=arr; else delete values[f.key];
+    }
+    else if(f.type==='multi'){ const a=[...document.querySelectorAll('.m'+f.idx+':checked')].map(x=>x.value); if(a.length) values[f.key]=a; else delete values[f.key]; }
+    else if(f.type==='bool'){ if(document.getElementById('fld'+f.idx).checked) values[f.key]=true; else delete values[f.key]; }
+    else { const el=document.getElementById('fld'+f.idx); const v=el?el.value:''; if(v!==''&&v!=null) values[f.key]=v; else delete values[f.key]; }
+  });
+  m.values=values; m.owner=document.getElementById('ownerInput').value.trim();
+  if(_pickStatus) m.status=_pickStatus;
+  save(); toast('已儲存 '+c+' '+SCHEMA[c].title); openEvent(e.id);
+}
+
+/* ============================================================
+   動作
+   ============================================================ */
+function goEvents(){ state.view='events'; render(); }
+function openEvent(id){ state.view='dashboard'; state.eventId=id; render(); window.scrollTo(0,0); }
+function openModule(c){ state.view='module'; state.code=c; render(); window.scrollTo(0,0); }
+
+let _efCat='公益活動', _efType='';
+function newEvent(){ eventForm(); }
+function editEvent(id){ eventForm(getEvent(id)); }
+function eventForm(ev){
+  const isNew=!ev; ev=ev||{};
+  _efCat = ev.category || '公益活動'; _efType = ev.type || '';
+  modal(`
+    <h3 style="margin:0 0 14px">${isNew?'新增活動':'編輯活動'}</h3>
+    <div class="fld"><label>活動性質</label>
+      <div class="catToggle" id="catToggle">
+        ${CATEGORIES.map(c=>`<button type="button" class="cattab" data-cat="${c}" onclick="efSetCat('${c}')">${c}</button>`).join('')}
+      </div>
+      <p class="hint" style="margin:8px 0 0">公益活動會多顯示「公益專屬」欄位（服務對象、志工、成果…）；組織活動只顯示內部欄位。</p>
+    </div>
+    <div class="fld"><label>活動名稱</label><input id="ef_name" value="${esc(ev.name||'')}" placeholder="例：淨灘公益服務 2026"></div>
+    <div class="fld"><label>活動類型</label><select id="ef_type"></select></div>
+    <div class="row" style="gap:10px">
+      <div class="fld" style="flex:1"><label>日期</label><input id="ef_date" type="date" value="${esc(ev.date||'')}"></div>
+      <div class="fld" style="flex:1"><label>地點</label><input id="ef_place" value="${esc(ev.place||'')}"></div>
+    </div>
+    <div class="fld"><label>總召</label><input id="ef_lead" value="${esc(ev.lead||'')}"></div>
+    <div class="row" style="gap:10px; margin-top:8px">
+      ${!isNew?`<button class="btn sm" style="color:#e24b4a;border-color:#f0c2c2" onclick="delEvent('${ev.id}')">刪除</button>`:''}
+      <div style="flex:1"></div>
+      <button class="btn" onclick="closeModal()">取消</button>
+      <button class="btn pri" onclick="saveEvent('${isNew?'':ev.id}')">儲存</button>
+    </div>`);
+  efSetCat(_efCat);
+}
+function efSetCat(cat){
+  _efCat=cat;
+  document.querySelectorAll('#catToggle .cattab').forEach(b=> b.classList.toggle('on', b.dataset.cat===cat));
+  const sel=document.getElementById('ef_type'); const want=sel.value||_efType||'';
+  sel.innerHTML=TYPES[cat].map(t=>`<option ${t===want?'selected':''}>${esc(t)}</option>`).join('');
+}
+function saveEvent(id){
+  const get=x=>document.getElementById(x).value.trim();
+  const name=get('ef_name'); if(!name){ alert('請輸入活動名稱'); return; }
+  const data={name, category:_efCat, type:get('ef_type'), date:get('ef_date'), place:get('ef_place'), lead:get('ef_lead')};
+  if(id){ Object.assign(getEvent(id), data); save(); closeModal(); render(); }
+  else { const e={id:uid(), orgId:currentOrg().id, modules:blankModules(), ...data}; DB.events.push(e); save(); closeModal(); openEvent(e.id); }
+}
+function delEvent(id){
+  if(!confirm('確定刪除這個活動？此動作無法復原。')) return;
+  DB.events=DB.events.filter(e=>e.id!==id); save(); closeModal(); goEvents();
+}
+
+document.getElementById('orgSel').addEventListener('change', function(){
+  if(this.value==='__new'){ const n=prompt('新組織名稱：'); if(n&&n.trim()){ const o={id:uid(),name:n.trim()}; DB.orgs.push(o); DB.ui.orgId=o.id; save(); } goEvents(); return; }
+  DB.ui.orgId=this.value; save(); goEvents();
+});
+document.getElementById('roleSel').addEventListener('change', function(){ DB.ui.role=this.value; save(); });
+
+function exportDB(){
+  const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='活動管理-備份.json'; a.click();
+}
+function importDB(){
+  const i=document.createElement('input'); i.type='file'; i.accept='application/json';
+  i.onchange=()=>{ const f=i.files[0]; if(!f) return; const r=new FileReader();
+    r.onload=()=>{ try{ const d=JSON.parse(r.result); if(d.orgs&&d.events){ DB=d; save(); goEvents(); toast('已匯入'); } else alert('檔案格式不符'); }catch(e){ alert('讀取失敗'); } };
+    r.readAsText(f); };
+  i.click();
+}
+
+function modal(html){
+  closeModal();
+  const m=document.createElement('div'); m.className='mask'; m.id='mask';
+  m.onclick=e=>{ if(e.target===m) closeModal(); };
+  m.innerHTML=`<div class="modal">${html}</div>`;
+  document.body.appendChild(m);
+}
+function closeModal(){ const m=document.getElementById('mask'); if(m) m.remove(); }
+function toast(t){
+  const d=document.createElement('div'); d.textContent=t;
+  d.style.cssText='position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#1c1c1a;color:#fff;padding:10px 18px;border-radius:24px;font-size:14px;z-index:99;opacity:0;transition:opacity .2s';
+  document.body.appendChild(d); requestAnimationFrame(()=>d.style.opacity='1');
+  setTimeout(()=>{ d.style.opacity='0'; setTimeout(()=>d.remove(),250); },1600);
+}
+
+render();
+</script>
+</body>
+</html>
