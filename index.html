@@ -119,6 +119,104 @@
   @media(min-width:600px){ .mask{align-items:center} .modal{border-radius:16px} }
   .ver{text-align:center; color:var(--hint); font-size:11px; padding:18px 0 0}
   .badge2{font-size:11px; background:#fff4e0; color:#854f0b; border:1px solid #f3d8a0; padding:3px 8px; border-radius:6px}
+
+  /* 預算速覽視覺化（儀表板） */
+  .budblk{margin:2px 0}
+  .budhead{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px}
+  .budtitle{font-size:13px; font-weight:700; color:var(--mut)}
+  .budbal{font-size:20px; font-weight:800}
+  .bbar-row{display:flex; align-items:center; gap:9px; margin:7px 0}
+  .bbar-lab{width:30px; flex:none; font-size:12px; color:var(--mut)}
+  .bbar{flex:1; height:11px; background:#eceae3; border-radius:20px; overflow:hidden}
+  .bbar>i{display:block; height:100%; border-radius:20px; transition:width .3s}
+  .bbar-val{width:96px; flex:none; text-align:right; font-size:13px; font-weight:600}
+
+  /* 今日作戰面板 */
+  .warcard{background:linear-gradient(135deg,#0f6e56,#128a68); color:#fff; border-radius:14px; padding:15px 16px; margin:12px 0; box-shadow:0 6px 18px rgba(15,110,86,.28)}
+  .warhd{font-size:12px; font-weight:700; letter-spacing:.8px; display:flex; align-items:center; gap:7px; opacity:.96}
+  .warlive{animation:blink 1.1s infinite; font-size:11px}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+  .wartitle{font-size:20px; font-weight:800; margin:5px 0 3px}
+  .warstat{font-size:13px; opacity:.97; margin-bottom:13px}
+  .warbtns{display:flex; flex-wrap:wrap; gap:8px}
+  .warbtn{flex:1 1 100%; justify-content:center; background:#fff; color:#0c7a5c; border:none; font-weight:800; padding:13px; font-size:15px}
+  .warbtn2{background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.45); font-weight:600}
+
+  /* 多欄表格（收支逐項 / 感謝名單 / 時間流程） */
+  .tbl{margin:3px 0 2px}
+  .tbl-head{display:flex; gap:5px; align-items:center; font-size:10.5px; color:var(--mut); font-weight:600; padding:0 0 4px}
+  .tbl-head .th{flex:1 1 0; min-width:0; padding:0 4px; text-align:center}
+  .tbl-head .th-sub{flex:none; width:74px; padding:0}
+  .tbl-head .th-h{flex:none; width:18px; padding:0}
+  .tbl-head .th-b{flex:none; width:18px; padding:0}
+  .trow{display:flex; gap:5px; align-items:flex-start; margin:4px 0}
+  .cell-in{flex:1 1 0; min-width:0; padding:5px 7px; font-size:13px; text-align:center}
+  .c-name,.c-who,.c-item,.c-content,.c-note,.c-sec,.c-spec,.c-support{text-align:left}
+  .c-price{text-align:right}
+  select.cell-in{padding:5px 2px}
+  .trow input[type=number]{-moz-appearance:textfield}
+  .trow input[type=number]::-webkit-inner-spin-button,.trow input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none; margin:0}
+  .money-wrap{position:relative; display:flex; align-items:center}
+  .msign{position:absolute; left:6px; font-size:11px; color:var(--mut); pointer-events:none}
+  .money-wrap .cell-in{padding-left:15px}
+  .c-sub{flex:none; width:74px; padding:5px 7px; font-size:12px; font-weight:600; color:var(--ink); border:1px solid var(--line); border-radius:8px; background:#faf9f4; text-align:right; min-height:30px; display:flex; align-items:center; justify-content:flex-end}
+  .combo-wrap{position:relative; display:flex; align-items:flex-start}
+  .combo-wrap .cell-in{padding-right:16px}
+  .combo-btn{position:absolute; right:1px; top:3px; width:14px; height:22px; padding:0; border:none; background:transparent; color:var(--mut); font-size:9px; cursor:pointer}
+  .combo-pop{position:absolute; top:100%; left:0; min-width:100%; max-height:180px; overflow:auto; background:#fff; border:1px solid var(--line2); border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.14); z-index:40; margin-top:2px}
+  .combo-opt{padding:7px 11px; font-size:13px; white-space:nowrap; cursor:pointer}
+  .combo-opt:hover{background:#eef4fb}
+  .combo-opt.picked{background:#eef4fb; font-weight:700}
+  .combo-opt.picked::after{content:" ✓"; color:#0f6e56}
+  .combo-empty{padding:7px 11px; font-size:12px; color:var(--hint)}
+  .dragh{flex:none; width:18px; text-align:center; cursor:grab; color:var(--hint); font-size:13px; user-select:none}
+  .dragh:active{cursor:grabbing}
+  .rbtn{flex:none; width:18px; height:28px; padding:0; border:1px solid var(--line2); border-radius:6px; background:#fff; font-size:10px; color:var(--mut); line-height:1}
+  .rbtn.on{border-color:var(--brand); background:#eef4fb}
+  .rbtn.has{border-color:#1f5fa5; background:#1f5fa5; color:#fff}
+  .rbtn.chkhas{border-color:#e24b4a; background:#e24b4a; color:#fff}
+  .rbtn.del{color:#e24b4a}
+  .cell-in.ta{resize:none; overflow:hidden; line-height:1.45; min-height:30px}
+  .tbl-addbar{display:flex; gap:7px; flex-wrap:wrap}
+  .addrow{margin:4px 0 2px; padding:6px 12px; border:1px dashed var(--line2); border-radius:9px; background:#fff; color:var(--brand-d); font-size:12.5px; font-weight:500}
+  .addsec{border-color:#e8b84a; color:#9a6a00; background:#fffdf6}
+  .tbl-foot{text-align:right; font-size:12.5px; font-weight:700; color:var(--ink); margin-top:5px}
+  .trow-sec{background:#0f6e56; border:1px solid #0a5743; border-radius:9px; padding:2px 5px; margin:9px 0 4px}
+  .trow-sec .c-sec{flex:1 1 0; min-width:0; font-weight:800; color:#fff; background:transparent; border:none; font-size:13.5px; padding:5px 6px}
+  .trow-sec .c-sec::placeholder{color:rgba(255,255,255,.6)}
+  .trow-sec .c-sec:focus{box-shadow:none}
+  .trow-sec .dragh{color:rgba(255,255,255,.7)}
+  .trow-sec .rbtn.del{color:#fff; border-color:rgba(255,255,255,.5); background:transparent}
+  .rnote{display:flex; margin:1px 0 6px}
+  .rnote-pad{flex:none}
+  .rnote .c-note{font-size:12.5px}
+  .rchecks{display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 8px}
+  .chk.mini{padding:4px 10px; font-size:11.5px}
+  .cdate-wrap{position:relative; display:flex; align-items:center; flex:none}
+  .cdate-wrap .cdate{width:100%; padding-right:17px}
+  .cdate-btn{position:absolute; right:0; width:17px; height:24px; padding:0; border:none; background:transparent; font-size:10px; line-height:1}
+  .cdate-hidden{position:absolute; right:0; bottom:0; width:1px; height:1px; opacity:0; pointer-events:none}
+  .time-wrap{position:relative; display:flex; align-items:stretch; flex:none}
+  .time-wrap .c-time{width:100%; padding-right:15px}
+  .time-spin{position:absolute; right:1px; top:1px; bottom:1px; display:flex; flex-direction:column; width:13px}
+  .time-spin button{flex:1; border:none; background:transparent; padding:0; font-size:7px; line-height:1; color:var(--mut); cursor:pointer}
+  .time-spin button:hover{color:var(--brand)}
+  .pick-grid{display:flex; flex-wrap:wrap; gap:8px; max-height:48vh; overflow:auto; padding:2px}
+  .pick-chip{border:1px solid var(--line2); background:#fff; border-radius:18px; padding:9px 15px; font-size:14px; cursor:pointer}
+  .pick-chip.on{border-color:var(--brand); background:var(--brand); color:#fff; font-weight:600}
+  .pick-sel{margin-top:12px; font-size:13px; color:var(--mut)}
+
+  /* 人員名單 */
+  .roster-chips{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px}
+  .rchip{display:inline-flex; align-items:center; gap:3px; background:#eef4fb; color:var(--brand-d); border:1px solid #cfe0f3; border-radius:16px; padding:4px 7px 4px 11px; font-size:13px; cursor:pointer}
+  .rchip-x{border:none; background:transparent; color:#90a4bd; font-size:15px; padding:0; width:16px; height:16px; line-height:1; cursor:pointer}
+  .roster-add{display:flex; gap:6px}
+  .roster-add input{flex:1}
+
+  /* 可收合群組（點標題展開） */
+  .grp-coll{width:100%; text-align:left; background:transparent; border:none; padding:0; cursor:pointer}
+  .grp-caret{font-size:10px; color:var(--brand)}
+  .grp-body{margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -137,7 +235,7 @@
    活動分「公益活動 / 組織活動」，自動切換顯示的欄位
    後續：接 Firebase(登入+授權名單+即時同步) → LINE 通知
    ============================================================ */
-const APP_VERSION = 'v0.3.0';
+const APP_VERSION = 'v0.5.5';
 
 /* 品牌設定：白標時只改這一塊 ------------------------------------ */
 const BRAND = { name:'活動強力助手2026', primary:'#1f5fa5' };
@@ -153,6 +251,45 @@ const STATUS = {
 };
 const STATUS_ORDER = ['not','plan','done','follow','alert','archived'];
 function nextStatus(s){ const i=STATUS_ORDER.indexOf(s); return STATUS_ORDER[(i+1)%STATUS_ORDER.length]; }
+
+/* 現場狀態大燈號顏色（statebtn 型別用） */
+const STATE_COLORS = {'正常':'#2fa36b','注意':'#efb324','異常':'#ef7d27','緊急':'#e24b4a'};
+
+/* 多欄表格型別（table）：收支逐項 / 感謝名單 / 時間流程共用 ------
+   每列 = 物件；money:true 會自動算「單筆金額 × 數量 = 小計」並加總；
+   note:true 每列可展開備註；checks:[...] 每列可展開勾選框。 */
+const TABLE_DEFS = {
+  income:{ money:true, note:true, reorder:true, cols:[
+    {k:'date',  label:'日期',   type:'md',    w:'58px'},
+    {k:'src',   label:'來源項目', type:'combo', w:'94px', opts:['公費撥款','資源補助','廠商贊助','報名費收入','其他收入']},
+    {k:'name',  label:'名稱',   type:'text', fg:3},
+    {k:'spec',  label:'規格',   type:'text', fg:2},
+    {k:'price', label:'金額',   type:'money', w:'64px'},
+    {k:'qty',   label:'數量',   type:'num',   w:'46px', def:'1'},
+  ]},
+  expense:{ money:true, note:true, reorder:true, cols:[
+    {k:'date',  label:'日期',   type:'md',    w:'58px'},
+    {k:'cat',   label:'支出項目', type:'combo', w:'94px', opts:['道具消耗','場地使用費','餐飲支出','文宣印刷','交通報銷','保險費','器材購買','設備租賃','醫護費','行銷宣傳費','雜支']},
+    {k:'name',  label:'名稱',   type:'text', fg:3},
+    {k:'spec',  label:'規格',   type:'text', fg:2},
+    {k:'price', label:'金額',   type:'money', w:'64px'},
+    {k:'qty',   label:'數量',   type:'num',   w:'46px', def:'1'},
+  ]},
+  thanks:{ money:true, note:true, reorder:true, checks:['是否需要收據','是否需要成果回報','是否公開致謝'], cols:[
+    {k:'target', label:'對象',     type:'select', w:'80px', opts:['贊助商','合作單位','志工','同仁','貴賓','廠商']},
+    {k:'who',    label:'贊助人／單位', type:'text'},
+    {k:'item',   label:'贊助項目',  type:'text'},
+    {k:'price',  label:'金額',     type:'money', w:'64px'},
+    {k:'qty',    label:'數量',     type:'num',   w:'46px', def:'1'},
+  ]},
+  rundown:{ money:false, note:true, reorder:true, sections:true, cols:[
+    {k:'time',    label:'時間', type:'time', w:'68px'},
+    {k:'topic',   label:'主題', type:'text', w:'104px'},
+    {k:'content', label:'內容', type:'area'},
+    {k:'owner',   label:'場控者', type:'combo', roster:true, w:'92px'},
+    {k:'support', label:'支援人員', type:'combo', roster:true, multi:true, w:'132px'},
+  ]},
+};
 
 /* 權限角色——MVP 先做身分切換，實際權限等接 Firebase */
 const ROLES = ['負責人/主席','活動總召','財務','組長','成員','一般參與者'];
@@ -193,8 +330,8 @@ const SCHEMA = {
     {g:'回報機制', f:['回報頻率','回報群組','異常回報流程|area','總召確認|bool','主管掌握事項|area']},
   ]},
   A3:{phase:'A', title:'預算審理', purpose:'活動還沒開始前，就讓預估收入、支出清楚透明。', groups:[
-    {g:'預估收入', f:['|lineitems|分會補助,報名費收入,現金贊助,物資贊助,服務贊助,其他收入']},
-    {g:'預估支出', f:['|lineitems|場地費,餐飲費,交通費,保險費,文宣印刷費,活動器材費,攝影紀錄費,感謝狀費用,雜支,備用金']},
+    {g:'預估收入', f:['|table|income']},
+    {g:'預估支出', f:['|table|expense']},
   ]},
   A4:{phase:'A', title:'宣傳溝通與風險控管', purpose:'避免資訊沒傳到、報名混亂、天候突變、場地問題、安全問題。', groups:[
     {g:'宣傳規劃', f:['宣傳主軸','活動海報|photo','報名表單','社群貼文|area','LINE 公告|area','邀約文案|area','贊助曝光方式']},
@@ -210,13 +347,9 @@ const SCHEMA = {
     {g:'設備物資', f:['準備清單|multi|桌椅,帳篷,音響,麥克風,投影設備,延長線,飲水,報到表,名牌,活動物資']},
     {g:'場佈確認', f:['場佈負責人|person','完成時間','缺漏項目|area','補救方式|area','總召確認|bool']},
   ]},
-  B2:{phase:'B', title:'分工執行', purpose:'讓每一組、每一個人都知道自己的任務。', groups:[
-    {g:'報到組', f:['負責人|person','工作項目|multi|會友報到,來賓報到,志工報到,簽到表,名牌發放']},
-    {g:'接待組', f:['負責人|person','工作項目|multi|貴賓接待,合作單位接待,贊助商接待,服務對象接待']},
-    {g:'場控組', f:['負責人|person','工作項目|multi|流程控管,主持人提醒,時間提醒,麥克風安排,臨時流程調整']},
-    {g:'志工服務組', cat:'welfare', f:['負責人|person','工作項目|multi|志工集合,任務說明,分組服務,服務對象陪同,志工時數紀錄']},
-    {g:'攝影紀錄組', f:['負責人|person','工作項目|multi|活動全景,幹部合照,服務畫面,贊助商曝光,成果照片,不可公開照片註記']},
-    {g:'機動支援組', f:['負責人|person','工作項目|multi|臨時採買,人力支援,場地協助,交通引導,突發狀況處理']},
+  B2:{phase:'B', title:'分工執行', purpose:'依時間流程，把當天每個時段的工作、內容、負責場控者展開布達。', groups:[
+    {g:'人員名單', f:['名單|roster']},
+    {g:'當日時間流程', f:['|table|rundown']},
   ]},
   B3:{phase:'B', title:'周邊協調', purpose:'處理活動中所有外部單位、場地方、廠商、交通、人流與貴賓動線。', groups:[
     {g:'外部窗口', f:['場地方窗口','合作單位窗口','社福單位窗口','學校窗口','政府窗口','里長／社區窗口','贊助商窗口','媒體窗口']},
@@ -225,7 +358,7 @@ const SCHEMA = {
     {g:'貴賓與合作單位', f:['貴賓到場時間','致詞安排','合照安排','贈禮安排','媒體受訪','後續聯絡']},
   ]},
   B4:{phase:'B', title:'現場控管與即時紀錄', purpose:'活動當天的中控中心，讓總召即時知道人、錢、物、事是否正常。', groups:[
-    {g:'現場總控', f:['現場總控人|person','LINE 指揮群','現場狀態|select|正常,注意,異常,緊急','問題回報人|person','總召確認|bool']},
+    {g:'現場總控', f:['現場總控人|person','LINE 指揮群','現場狀態|statebtn|正常,注意,異常,緊急','問題回報人|person','總召確認|bool']},
     {g:'人員紀錄', f:['預計報名人數|num','實際報到人數|num','未到人員|area','臨時加入人員|area','志工人數|num','貴賓到場紀錄|area']},
     {g:'公益成果即時紀錄', cat:'welfare', f:['實際服務人數|num','物資發放數量|num','清理重量(kg)|num','志工服務時數|num','募款金額|money','受益單位回饋|area','現場亮點|area']},
     {g:'異常紀錄', f:['物資短缺|area','人力不足|area','流程延誤|area','天候問題|area','醫療安全事件|area','臨時支出|area','其他突發狀況|area']},
@@ -233,11 +366,11 @@ const SCHEMA = {
   ]},
   /* ---------- C. 活動後 ---------- */
   C1:{phase:'C', title:'實支開銷', purpose:'整理活動實際收入、實際支出、贊助、核銷與結餘。', groups:[
-    {g:'實際收入', f:['|lineitems|分會補助,報名費收入,現金贊助,物資贊助估值,服務贊助估值,其他收入']},
-    {g:'實際支出', f:['|lineitems|場地費,餐飲費,交通費,保險費,文宣印刷費,器材費,攝影費,感謝狀費用,雜支,臨時支出']},
-    {g:'預算差異', f:['原預算|money','實際支出合計|money','差異金額|money','超支原因|area','節省原因|area','下次建議|area']},
-    {g:'憑證管理', f:['發票|photo','收據|photo','匯款紀錄|photo','現金支出紀錄|photo','贊助證明|photo','核銷附件|photo']},
-    {g:'財務結案', f:['應付款項|money','應退款項|money','結餘金額|money','財務審核|bool','主管確認|bool','結案日期|date']},
+    {g:'實際收入', f:['|table|income']},
+    {g:'實際支出', f:['|table|expense']},
+    {g:'預算差異', coll:true, f:['原預算|money','實際支出合計|money','差異金額|money','超支原因|area','節省原因|area','下次建議|area']},
+    {g:'憑證管理', coll:true, f:['發票|photo','收據|photo','匯款紀錄|photo','現金支出紀錄|photo','贊助證明|photo','核銷附件|photo']},
+    {g:'財務結案', coll:true, f:['應付款項|money','應退款項|money','結餘金額|money','財務審核|bool','主管確認|bool','結案日期|date']},
   ]},
   C2:{phase:'C', title:'AAR 覆盤', purpose:'透過活動後檢討，把經驗變成下一次活動的資產。', groups:[
     {g:'目標回顧', f:['原本活動目標|area','實際完成結果|area','是否達標|bool','未達標原因|area','超出預期成果|area']},
@@ -247,11 +380,10 @@ const SCHEMA = {
     {g:'下次改善', f:['可以保留的做法|area','必須修正的問題|area','需要新增的資源|area','可培養的人才','下次活動建議|area','SOP 更新事項|area']},
   ]},
   C3:{phase:'C', title:'致謝感謝', purpose:'維繫關係、感謝貢獻、建立下一次合作基礎。', groups:[
-    {g:'感謝對象', f:['對象|multi|贊助商,合作單位,志工,會友,貴賓,受益單位,場地方,廠商']},
+    {g:'感謝名單', f:['|table|thanks']},
     {g:'感謝方式', f:['方式|multi|LINE 感謝訊息,社群公開感謝,感謝狀,成果報告,活動照片分享,實體拜訪,後續邀約']},
-    {g:'贊助管理', f:['贊助人／單位','贊助類型|multi|現金,物資,場地,餐飲,攝影,其他服務','贊助金額或估值|money','是否需要收據|bool','是否需要成果回報|bool','是否公開致謝|bool']},
-    {g:'贊助商回饋', f:['贊助露出紀錄|area','社群貼文連結','合照照片|photo','成果數據|area','感謝狀寄送|bool','下次合作邀約']},
-    {g:'人員回饋', f:['感謝訊息|area','服務時數|num','優秀夥伴紀錄|area','可培養幹部名單|area','下次邀請名單|area']},
+    {g:'贊助商回饋', coll:true, f:['贊助露出紀錄|area','社群貼文連結','合照照片|photo','成果數據|area','感謝狀寄送|bool','下次合作邀約']},
+    {g:'人員回饋', coll:true, f:['感謝訊息|area','服務時數|num','優秀夥伴紀錄|area','可培養幹部名單|area','下次邀請名單|area']},
   ]},
   C4:{phase:'C', title:'成果歸檔與傳承', purpose:'把活動成果、照片、紀錄、SOP 留下來，讓下一屆不用重新摸索。', groups:[
     {g:'成果資料', f:['活動成果報告|area','服務成果數據|area||w','參與人數|num','志工人數|num||w','志工服務時數|num||w','募款金額|money','物資發放數量|num','媒體曝光','後續合作|area']},
@@ -268,7 +400,7 @@ for(let r=1;r<=4;r++) for(const p of ['A','B','C']) GRID_ORDER.push(p+r);
 /* ============================================================
    資料儲存（localStorage；之後換成 Firestore 介面相同）
    ============================================================ */
-const KEY='qsc3x4_db_v2';
+const KEY='qsc3x4_db_v3';
 let DB = load();
 
 function load(){
@@ -286,8 +418,8 @@ function seed(){
   ev.modules.A1={status:'done', owner:'阿哲', values:{'活動基本資料::活動名稱':'淨灘公益服務 2026','活動基本資料::活動日期':'2026-07-19','活動基本資料::活動地點':'西子灣','公益活動專屬欄位::預計服務人數':'120','成功指標::服務人數':'120','成功指標::募款金額':'30000'}};
   ev.modules.A2={status:'done', owner:'阿哲', values:{'核心幹部::活動總召':'阿哲','核心幹部::財務負責人':'美玲'}};
   ev.modules.A3={status:'follow', owner:'美玲', values:{
-    '預估收入::':[{name:'分會補助',qty:'',note:'',amount:20000},{name:'現金贊助',qty:'',note:'廠商A',amount:15000}],
-    '預估支出::':[{name:'場地費',qty:'',note:'',amount:5000},{name:'餐飲費',qty:'120',note:'便當',amount:8000},{name:'文宣印刷費',qty:'',note:'布條',amount:3000}],
+    '預估收入::':[{src:'報名費收入',name:'報名費',price:'100',qty:'50'},{src:'廠商贊助',name:'現金贊助',price:'15000',qty:'1',note:'廠商A'}],
+    '預估支出::':[{cat:'文宣印刷',name:'布條',price:'3000',qty:'1'},{cat:'餐飲支出',name:'便當',price:'80',qty:'120'}],
   }};
   ev.modules.A4={status:'plan', owner:'怡君', values:{}};
   ev.modules.B1={status:'plan', owner:'小張', values:{}};
@@ -315,19 +447,67 @@ function computeProgress(code, values, welfare){
   const fs=moduleFields(code, welfare); if(!fs.length) return 0;
   let filled=0;
   fs.forEach(f=>{ const v=values[f.key];
-    if(f.type==='multi'||f.type==='lineitems'){ if(Array.isArray(v)&&v.length) filled++; }
+    if(f.type==='multi'||f.type==='lineitems'||f.type==='table'||f.type==='roster'){ if(Array.isArray(v)&&v.length) filled++; }
     else if(f.type==='bool'){ if(v===true) filled++; }
     else if(v!==undefined && v!==null && String(v).trim()!=='') filled++;
   });
   return Math.round(100*filled/fs.length);
 }
+function rowSub(r){ if(!r) return 0; let p=parseFloat(r.price); if(isNaN(p)) p=parseFloat(r.amount); if(isNaN(p)) return 0; let q=parseFloat(r.qty); if(isNaN(q)||q<=0) q=1; return p*q; }
 function sumLineItems(values, group){
   const arr=values[group+'::']; let s=0;
-  if(Array.isArray(arr)) arr.forEach(r=>{ const n=parseFloat(r.amount); if(!isNaN(n)) s+=n; });
+  if(Array.isArray(arr)) arr.forEach(r=>{ s+=rowSub(r); });
   return s;
 }
-function nt(n){ return 'NT$ '+Math.round(n).toLocaleString('en-US'); }
+function nt(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
 function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function todayStr(){ const d=new Date(); const z=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate()); }
+
+/* 現場狀態大燈號（statebtn 型別）：單一循環色塊鈕，存的值與舊 select 相同 */
+function stateColor(v){ return STATE_COLORS[v] || (v ? '#888' : '#b4b2a9'); }
+function stateBtnInner(v){ const label = v || '— 點選設定 —'; return `<span class="dot" style="background:${stateColor(v)}"></span>${esc(label)}<span class="stnext">點一下換</span>`; }
+function cycleStateBtn(id){ const b=document.getElementById(id); if(!b) return; const opts=(b.dataset.opts||'').split(',').filter(Boolean); if(!opts.length) return;
+  let i=opts.indexOf(b.dataset.val); i=(i+1)%opts.length; const v=opts[i]; b.dataset.val=v; b.style.borderColor=stateColor(v); b.innerHTML=stateBtnInner(v); }
+
+/* 預算即時結餘（A3 預估 / C1 實際 共用，純顯示，不動資料） */
+function budgetLabels(c){ const gs=SCHEMA[c].groups; const inG=gs.find(g=>/收入/.test(g.g)); const outG=gs.find(g=>/支出/.test(g.g));
+  const inL=inG?inG.g:'收入', outL=outG?outG.g:'支出'; const prefix=inL.replace('收入',''); return { in:inL, out:outL, bal:(prefix||'')+'結餘' }; }
+function budgetTotals(){ let inc=0, exp=0; FIELD_META.forEach(f=>{ if(f.type!=='table') return;
+    const def=TABLE_DEFS[f.defKey]; if(!def||!def.money) return; let s=0;
+    document.querySelectorAll('#tblrows'+f.idx+' .trow').forEach(tr=>{ const pe=tr.querySelector('.c-price'), qe=tr.querySelector('.c-qty');
+      const p=pe?parseFloat(pe.value):NaN; let q=qe?parseFloat(qe.value):NaN; if(isNaN(q)||q<=0) q=1; if(!isNaN(p)) s+=p*q; });
+    if(/收入/.test(f.key)) inc+=s; else if(/支出/.test(f.key)) exp+=s; }); return { inc, exp, bal:inc-exp }; }
+function budgetCardHTML(c){ const L=budgetLabels(c); return `<div class="card" id="budgetSum">
+    <div class="stats">
+      <div class="stat"><div class="k">${esc(L.in)}</div><div class="v" data-b="in">—</div></div>
+      <div class="stat"><div class="k">${esc(L.out)}</div><div class="v" data-b="out">—</div></div>
+      <div class="stat"><div class="k">${esc(L.bal)}</div><div class="v" data-b="bal" style="font-size:18px">—</div></div>
+    </div>
+    <p class="hint" style="margin:8px 0 0">邊填邊自動加總，結餘 = ${esc(L.in)} − ${esc(L.out)}。</p></div>`; }
+function updateBudgetSummaryCard(){ const el=document.getElementById('budgetSum'); if(!el) return; const t=budgetTotals();
+  const setv=(k,val,color)=>{ const x=el.querySelector('[data-b="'+k+'"]'); if(x){ x.textContent=nt(val); if(color) x.style.color=color; } };
+  setv('in', t.inc); setv('out', t.exp); setv('bal', t.bal, t.bal<0?'#e24b4a':'#2fa36b'); }
+function budgetBlock(title, inc, exp){ const bal=inc-exp, max=Math.max(inc,exp,1), bc=bal<0?'#e24b4a':'#2fa36b';
+  return `<div class="budblk">
+    <div class="budhead"><span class="budtitle">${esc(title)}</span><span class="budbal" style="color:${bc}">結餘 ${nt(bal)}</span></div>
+    <div class="bbar-row"><span class="bbar-lab">收入</span><div class="bbar"><i style="width:${(inc/max*100).toFixed(1)}%;background:#2fa36b"></i></div><span class="bbar-val">${nt(inc)}</span></div>
+    <div class="bbar-row"><span class="bbar-lab">支出</span><div class="bbar"><i style="width:${(exp/max*100).toFixed(1)}%;background:#e8884a"></i></div><span class="bbar-val">${nt(exp)}</span></div>
+  </div>`; }
+
+/* 今日作戰面板：活動日期＝今天時，儀表板頂端醒目卡，一鍵直達 B4 */
+function warPanelHTML(e){ if(!e.date || e.date!==todayStr()) return '';
+  const st = e.modules.B4.values['現場總控::現場狀態'] || '';
+  const stHtml = st ? `<span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:${stateColor(st)};vertical-align:middle"></span> ${esc(st)}` : '<span style="opacity:.85">尚未設定</span>';
+  return `<div class="warcard">
+    <div class="warhd"><span class="warlive">●</span> 今天就是活動日 · LIVE</div>
+    <div class="wartitle">${esc(e.name)}</div>
+    <div class="warstat">現場狀態：${stHtml}</div>
+    <div class="warbtns">
+      <button class="btn warbtn" onclick="openModule('B4')">🎛 進入現場控管（B4）→</button>
+      <button class="btn warbtn2" onclick="openModule('B1')">場佈</button>
+      <button class="btn warbtn2" onclick="openModule('B2')">分工</button>
+      <button class="btn warbtn2" onclick="openModule('B3')">協調</button>
+    </div></div>`; }
 
 /* ============================================================
    Render
@@ -375,7 +555,7 @@ function evtCard(e){
     <div class="dt"><div class="d">${d||'--'}</div><div class="m">${m?m+'月':''}</div></div>
     <div style="flex:1; min-width:0">
       <div class="row" style="justify-content:space-between"><h3 style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(e.name)}</h3>
-        <span class="pill" style="background:${st.bg};color:${st.color}">${st.txt}</span></div>
+        <span style="display:flex;gap:6px;flex:none">${e.date===todayStr()?'<span class="pill" style="background:#0f6e56;color:#fff">今日</span>':''}<span class="pill" style="background:${st.bg};color:${st.color}">${st.txt}</span></span></div>
       <div class="hint" style="margin:4px 0 8px"><span class="tag ${w?'w':'o'}">${w?'公益':'組織'}</span> ${esc(e.type||'')}　${esc(e.place||'')}　總召 ${esc(e.lead||'-')}</div>
       <div class="progbar"><i style="width:${prog}%"></i></div>
       <div class="hint" style="margin-top:4px">整體進度 ${prog}%</div>
@@ -398,6 +578,7 @@ function renderDashboard(){
   const actIn=sumLineItems(e.modules.C1.values,'實際收入'), actOut=sumLineItems(e.modules.C1.values,'實際支出');
   app.innerHTML = `
     <div class="crumb"><a class="btn gho" style="padding:0" onclick="goEvents()">← 活動</a><span>/</span><b>${esc(e.name)}</b></div>
+    ${warPanelHTML(e)}
     <div class="card">
       <div class="row" style="justify-content:space-between; align-items:flex-start">
         <div><h3 style="font-size:17px">${esc(e.name)}</h3>
@@ -419,17 +600,9 @@ function renderDashboard(){
 
     <h2>預算速覽</h2>
     <div class="card">
-      <div class="stats">
-        <div class="stat"><div class="k">預估收入</div><div class="v">${nt(estIn)}</div></div>
-        <div class="stat"><div class="k">預估支出</div><div class="v">${nt(estOut)}</div></div>
-        <div class="stat"><div class="k">預估結餘</div><div class="v" style="color:${estIn-estOut<0?'#e24b4a':'#2fa36b'}">${nt(estIn-estOut)}</div></div>
-      </div>
+      ${budgetBlock('預估（A3 預算審理）', estIn, estOut)}
       <div class="sep"></div>
-      <div class="stats">
-        <div class="stat"><div class="k">實際收入</div><div class="v">${nt(actIn)}</div></div>
-        <div class="stat"><div class="k">實際支出</div><div class="v">${nt(actOut)}</div></div>
-        <div class="stat"><div class="k">實際結餘</div><div class="v" style="color:${actIn-actOut<0?'#e24b4a':'#2fa36b'}">${nt(actIn-actOut)}</div></div>
-      </div>
+      ${budgetBlock('實際（C1 實支開銷）', actIn, actOut)}
       <p class="hint" style="margin:10px 0 0">數字自動取自 A3 預算審理 與 C1 實支開銷。</p>
     </div>
     <div class="ver">${esc(BRAND.name)} ${APP_VERSION}</div>`;
@@ -446,10 +619,12 @@ function cellHTML(e,c,w){
 function cycleCellStatus(c){ const e=getEvent(state.eventId); const m=e.modules[c]; m.status=nextStatus(m.status); save(); renderDashboard(); }
 
 /* ---------- 宮格詳情（schema 表單） ---------- */
-let FIELD_META=[]; let _pickStatus=null;
+let FIELD_META=[]; let _pickStatus=null; let _roster=[], _lastRosterCell=null, _dragRow=null;
 function renderModule(){
   const e=getEvent(state.eventId); const c=state.code; const sc=SCHEMA[c]; const m=e.modules[c];
   const ph=PHASES[sc.phase]; const w=isWelfare(e);
+  const isBudget = sc.groups.some(g=>/收入|支出/.test(g.g));
+  _roster = Array.isArray(m.values['人員名單::名單']) ? m.values['人員名單::名單'].slice() : [];
   FIELD_META=[];
   let body='';
   sc.groups.forEach(gr=>{
@@ -458,10 +633,12 @@ function renderModule(){
     gr.f.forEach(fs=>{
       const f=parseField(fs); if(f.cat==='w'&&!w) return;
       const key=gr.g+'::'+f.label; const idx=FIELD_META.length;
-      FIELD_META.push({key, type:f.type, idx});
+      FIELD_META.push({key, type:f.type, idx, defKey:f.options[0]});
       fh+=fieldHTML(f, key, idx, m.values[key]); any=true;
     });
-    if(any) body+=`<div class="grp">${esc(gr.g)}</div>`+fh;
+    if(!any) return;
+    if(gr.coll) body+=`<button type="button" class="grp grp-coll" onclick="toggleGroup(this)"><span class="grp-caret">▸</span>${esc(gr.g)}</button><div class="grp-body" style="display:none">${fh}</div>`;
+    else body+=`<div class="grp">${esc(gr.g)}</div>`+fh;
   });
   app.innerHTML = `
     <div class="crumb"><a class="btn gho" style="padding:0" onclick="openEvent('${e.id}')">← ${esc(e.name)}</a><span>/</span><b>${c} ${esc(sc.title)}</b></div>
@@ -482,6 +659,7 @@ function renderModule(){
         </div>
       </div>
     </div>
+    ${isBudget?budgetCardHTML(c):''}
     <div class="card">${body}</div>
     <div style="height:8px"></div>
     <div class="savebar"><div class="wrap2">
@@ -489,7 +667,8 @@ function renderModule(){
       <button class="btn pri" style="flex:1" onclick="saveModule()">儲存</button>
     </div></div>`;
   _pickStatus=m.status; paintStatus();
-  FIELD_META.forEach(f=>{ if(f.type==='lineitems') liSum(f.idx); });
+  FIELD_META.forEach(f=>{ if(f.type==='lineitems') liSum(f.idx); else if(f.type==='table') tableRecalc(f.idx); });
+  updateBudgetSummaryCard();
 }
 function paintStatus(){
   const s=STATUS[_pickStatus]; const b=document.getElementById('stCycle'); if(!b) return;
@@ -510,11 +689,19 @@ function fieldHTML(f, key, idx, val){
       <div class="lirows" id="li${idx}">${rows.map(r=>liRowHTML(idx,r)).join('')}</div>
       <div class="lisum" id="lisum${idx}"></div></div>`;
   }
+  if(f.type==='table') return tableHTML(f, idx, val);
+  if(f.type==='roster'){ const names=Array.isArray(val)?val:[];
+    return `<div class="fld">${lab}<div class="roster">
+      <div class="roster-chips" id="rosterChips">${names.map(rchipHTML).join('')}</div>
+      <div class="roster-add"><input id="rosterInput" placeholder="輸入姓名 → Enter 或按＋" onkeydown="if(event.key==='Enter'){event.preventDefault();rosterAdd();}"><button type="button" class="btn sm" onclick="rosterAdd()">＋ 加入</button></div>
+      <p class="hint" style="margin:6px 0 0">名單會自動出現在下方流程「場控者／支援人員」的下拉；先點某格、再點名字可快速填入。</p>
+    </div></div>`; }
   if(f.type==='area') return `<div class="fld">${lab}<textarea id="${id}">${esc(val||'')}</textarea></div>`;
   if(f.type==='num'||f.type==='money') return `<div class="fld">${lab}<input id="${id}" type="number" inputmode="decimal" value="${val!=null?esc(val):''}" placeholder="${f.type==='money'?'金額':''}"></div>`;
   if(f.type==='date') return `<div class="fld">${lab}<input id="${id}" type="date" value="${esc(val||'')}"></div>`;
   if(f.type==='photo') return `<div class="fld">${lab}<input id="${id}" value="${esc(val||'')}" placeholder="貼上照片/檔案連結（雲端硬碟）"></div>`;
   if(f.type==='bool') return `<div class="fld"><label class="chk ${val===true?'on':''}" id="${id}_w"><input type="checkbox" id="${id}" ${val===true?'checked':''} onchange="document.getElementById('${id}_w').classList.toggle('on',this.checked)"> ${esc(f.label)}</label></div>`;
+  if(f.type==='statebtn') return `<div class="fld">${lab}<button type="button" class="stbtn" id="${id}" data-val="${esc(val||'')}" data-opts="${esc(f.options.join(','))}" style="border-color:${stateColor(val||'')}" onclick="cycleStateBtn('${id}')">${stateBtnInner(val||'')}</button></div>`;
   if(f.type==='select') return `<div class="fld">${lab}<select id="${id}"><option value="">— 請選擇 —</option>${f.options.map(o=>`<option ${val===o?'selected':''}>${esc(o)}</option>`).join('')}</select></div>`;
   if(f.type==='multi'){ const arr=Array.isArray(val)?val:[];
     return `<div class="fld">${lab}<div class="chips">${f.options.map(o=>`<label class="chk ${arr.includes(o)?'on':''}"><input type="checkbox" class="m${idx}" value="${esc(o)}" ${arr.includes(o)?'checked':''} onchange="this.closest('.chk').classList.toggle('on',this.checked)"> ${esc(o)}</label>`).join('')}</div></div>`; }
@@ -543,7 +730,184 @@ function liAdd(idx, name){
 function liSum(idx){
   let s=0; document.querySelectorAll('#li'+idx+' .li-amt').forEach(i=>{ const n=parseFloat(i.value); if(!isNaN(n)) s+=n; });
   const el=document.getElementById('lisum'+idx); if(el) el.textContent='小計 '+nt(s);
+  updateBudgetSummaryCard();
 }
+
+/* ============================================================
+   多欄表格（table）：渲染與互動
+   ============================================================ */
+function tableHTML(f, idx, val){
+  const defKey=f.options[0]; const def=TABLE_DEFS[defKey]||{cols:[],money:false};
+  const rows=Array.isArray(val)?val:[];
+  let heads = def.reorder?`<span class="th th-h"></span>`:'';
+  heads += def.cols.map(c=>`<span class="th"${c.w?` style="flex:none;width:${c.w}"`:(c.fg?` style="flex:${c.fg} 1 0;min-width:0"`:'')}>${esc(c.label)}</span>`).join('');
+  if(def.money) heads += `<span class="th th-sub">小計</span>`;
+  if(def.note) heads += `<span class="th th-b"></span>`;
+  if(def.checks) heads += `<span class="th th-b"></span>`;
+  heads += `<span class="th th-b"></span>`;
+  const secBtn = def.sections?`<button type="button" class="addrow addsec" onclick="tableAddSection(${idx})">＋ 分段標題</button>`:'';
+  return `<div class="fld">
+    <div class="tbl" id="tbl${idx}" data-def="${defKey}">
+      <div class="tbl-head">${heads}</div>
+      <div class="tbl-rows" id="tblrows${idx}">${rows.map(r=>tableRowHTML(idx,def,r)).join('')}</div>
+      <div class="tbl-addbar"><button type="button" class="addrow" onclick="tableAddRow(${idx})">＋ 新增一列</button>${secBtn}</div>
+      <div class="tbl-foot" id="tblfoot${idx}"></div>
+    </div></div>`;
+}
+function cellStyle(col){ return col.w?` style="flex:none;width:${col.w}"` : (col.fg?` style="flex:${col.fg} 1 0;min-width:0"`:''); }
+function tcell(idx, col, v){
+  v = (v==null)?'':v; if(v==='' && col.def!=null) v=col.def;
+  const base='cell-in c-'+col.k; const wsty=cellStyle(col);
+  if(col.type==='md'){
+    return `<span class="cdate-wrap"${col.w?` style="flex:none;width:${col.w}"`:''}>`
+      +`<input class="${base} cdate" data-c="${col.k}" data-prev="${esc(v)}" value="${esc(v)}" placeholder="06/11" inputmode="numeric" onchange="dateCommit(this,${idx})">`
+      +`<button type="button" class="cdate-btn" tabindex="-1" onclick="pickDate(this)">📅</button>`
+      +`<input type="date" class="cdate-hidden" tabindex="-1" onchange="setDateCell(this)"></span>`;
+  }
+  if(col.type==='time') return `<span class="time-wrap"${wsty}><input class="${base} c-time" data-c="${col.k}" data-prev="${esc(v)}" value="${esc(v)}" placeholder="13:00" inputmode="numeric" maxlength="5" oninput="timeMask(this)" onchange="timeCommit(this,${idx})"><span class="time-spin"><button type="button" tabindex="-1" onclick="timeStep(this,1,${idx})">▲</button><button type="button" tabindex="-1" onclick="timeStep(this,-1,${idx})">▼</button></span></span>`;
+  if(col.type==='area') return `<textarea class="${base} ta" data-c="${col.k}" rows="1" oninput="taGrow(this)" placeholder="${esc(col.label)}（Enter 換行＝條列）"${wsty}>${esc(v)}</textarea>`;
+  if(col.type==='money') return `<span class="money-wrap"${wsty}><span class="msign">$</span><input class="${base}" data-c="${col.k}" type="number" inputmode="decimal" value="${esc(v)}" oninput="tableRecalc(${idx})"></span>`;
+  if(col.type==='num') return `<input class="${base}" data-c="${col.k}" type="number" inputmode="numeric" value="${esc(v)}" oninput="tableRecalc(${idx})"${wsty}>`;
+  if(col.type==='select') return `<select class="${base}" data-c="${col.k}"${wsty}><option value="">—</option>${col.opts.map(o=>`<option ${v===o?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+  if(col.type==='combo'){
+    if(col.roster){
+      if(col.multi) return `<span class="combo-wrap"${wsty}><textarea class="${base} ta" data-c="${col.k}" data-roster="1" data-multi="1" rows="1" onfocus="_lastRosterCell=this" oninput="taGrow(this)" placeholder="${esc(col.label)}">${esc(v)}</textarea><button type="button" class="combo-btn" tabindex="-1" title="點選人員" onclick="openPeoplePicker(this)">👥</button></span>`;
+      return `<span class="combo-wrap"${wsty}><input class="${base}" data-c="${col.k}" data-roster="1" onfocus="_lastRosterCell=this" value="${esc(v)}" placeholder="${esc(col.label)}"><button type="button" class="combo-btn" tabindex="-1" title="點選人員" onclick="openPeoplePicker(this)">👥</button></span>`; }
+    const dop=` data-opts="${esc((col.opts||[]).join('||'))}"`;
+    return `<span class="combo-wrap"${wsty}><input class="${base}" data-c="${col.k}"${dop} value="${esc(v)}" placeholder="${esc(col.label)}"><button type="button" class="combo-btn" tabindex="-1" onclick="comboOpen(this)">▾</button></span>`; }
+  return `<input class="${base}" data-c="${col.k}" value="${esc(v)}" placeholder="${esc(col.label)}"${wsty}>`;
+}
+function tableRowHTML(idx, def, r){
+  r=r||{};
+  const handle=def.reorder?`<span class="dragh" draggable="true" ondragstart="rowDragStart(event,this)" ondragend="rowDragEnd(event)" title="拖曳排序">⠿</span>`:'';
+  if(r.sec!=null){
+    return `<div class="trow-wrap" ondragover="rowDragOver(event)" ondrop="rowDrop(event)"><div class="trow trow-sec">${handle}<input class="cell-in c-sec" data-c="sec" value="${esc(r.sec)}" placeholder="分段重要主題（顯眼標示）…"><button type="button" class="rbtn del" title="刪除" onclick="tableDelRow(this,${idx})">✕</button></div></div>`;
+  }
+  const cells=def.cols.map(c=>tcell(idx,c,r[c.k])).join('');
+  const subCell=def.money?`<span class="c-sub" data-sub></span>`:'';
+  const hasNote=def.note && r.note && String(r.note).trim()!=='';
+  const hasChk=def.checks && r.checks && def.checks.some(n=>r.checks[n]);
+  const noteBtn=def.note?`<button type="button" class="rbtn${hasNote?' has':''}" title="備註" onclick="toggleRowExtra(this,'note')">📝</button>`:'';
+  const chkBtn=def.checks?`<button type="button" class="rbtn${hasChk?' chkhas':''}" title="勾選" onclick="toggleRowExtra(this,'checks')">☑</button>`:'';
+  const delBtn=`<button type="button" class="rbtn del" title="刪除" onclick="tableDelRow(this,${idx})">✕</button>`;
+  const leadW=(def.reorder?23:0)+(parseInt(def.cols[0].w)||0)+5;
+  const rightW=(def.money?79:0)+(def.note?23:0)+(def.checks?23:0)+23;
+  const noteRow=def.note?`<div class="rnote" style="display:none"><span class="rnote-pad" style="width:${leadW}px"></span><input class="cell-in c-note" oninput="noteContentChanged(this)" value="${esc(r.note||'')}" placeholder="備註…"><span class="rnote-pad" style="width:${rightW}px"></span></div>`:'';
+  let chkRow='';
+  if(def.checks){ const ch=r.checks||{};
+    chkRow=`<div class="rchecks" style="display:none">${def.checks.map(n=>`<label class="chk mini ${ch[n]?'on':''}"><input type="checkbox" data-chk="${esc(n)}" ${ch[n]?'checked':''} onchange="chkChanged(this)"> ${esc(n)}</label>`).join('')}</div>`; }
+  return `<div class="trow-wrap" ondragover="rowDragOver(event)" ondrop="rowDrop(event)"><div class="trow">${handle}${cells}${subCell}${noteBtn}${chkBtn}${delBtn}</div>${noteRow}${chkRow}</div>`;
+}
+function tableAddRow(idx){
+  const t=document.getElementById('tbl'+idx); if(!t) return; const def=TABLE_DEFS[t.dataset.def]||{cols:[]};
+  const box=document.getElementById('tblrows'+idx);
+  box.insertAdjacentHTML('beforeend', tableRowHTML(idx,def,{}));
+  tableRecalc(idx);
+  const rows=box.querySelectorAll('.trow-wrap'); const last=rows[rows.length-1].querySelector('.cell-in'); if(last) last.focus();
+}
+function tableDelRow(btn, idx){ const w=btn.closest('.trow-wrap'); if(w) w.remove(); tableRecalc(idx); }
+function toggleRowExtra(btn, kind){
+  const w=btn.closest('.trow-wrap'); const el=w.querySelector(kind==='note'?'.rnote':'.rchecks'); if(!el) return;
+  const show=el.style.display==='none'; el.style.display=show?'':'none';
+  if(show){ const inp=el.querySelector('input'); if(inp&&inp.type!=='checkbox') inp.focus(); }
+}
+function tableRecalc(idx){
+  const t=document.getElementById('tbl'+idx); if(!t) return; const def=TABLE_DEFS[t.dataset.def]||{};
+  const rows=document.querySelectorAll('#tblrows'+idx+' .trow-wrap'); let total=0, n=0;
+  rows.forEach(w=>{ if(w.querySelector('.c-sec')) return; n++; const tr=w.querySelector('.trow');
+    if(def.money){ const pe=tr.querySelector('.c-price'), qe=tr.querySelector('.c-qty');
+      const p=pe?parseFloat(pe.value):NaN; let q=qe?parseFloat(qe.value):NaN; if(isNaN(q)||q<=0) q=1;
+      const sub=isNaN(p)?NaN:p*q; const sc=tr.querySelector('[data-sub]'); if(sc) sc.textContent=isNaN(sub)?'':nt(sub);
+      if(!isNaN(sub)) total+=sub; }
+  });
+  const foot=document.getElementById('tblfoot'+idx);
+  if(foot) foot.textContent = def.money ? ('共 '+n+' 列　小計 '+nt(total)) : ('共 '+n+' 列');
+  document.querySelectorAll('#tblrows'+idx+' .ta').forEach(taGrow);
+  updateBudgetSummaryCard();
+}
+function pickDate(btn){ const h=btn.parentElement.querySelector('.cdate-hidden'); if(!h) return; if(h.showPicker){ try{ h.showPicker(); }catch(e){ h.click(); } } else h.click(); }
+function setDateCell(dp){ const w=dp.closest('.cdate-wrap'); const t=w.querySelector('.cdate'); if(dp.value){ const p=dp.value.split('-'); t.value=p[1]+'/'+p[2]; t.dataset.prev=t.value; } const tb=dp.closest('.tbl'); if(tb) tableSort(tb.id.slice(3)); }
+function toggleGroup(btn){ const b=btn.nextElementSibling; if(!b) return; const open=b.style.display!=='none'; b.style.display=open?'none':''; const c=btn.querySelector('.grp-caret'); if(c) c.textContent=open?'▸':'▾'; }
+
+/* 人員名單（roster）＋ 拖曳排序 */
+function rchipHTML(n){ return `<span class="rchip" onclick="rosterPick(this)" title="點我填入剛選的格子"><span class="rchip-n">${esc(n)}</span><button type="button" class="rchip-x" onclick="event.stopPropagation();rosterDel(this)" title="移除">×</button></span>`; }
+function rosterNames(){ return [...document.querySelectorAll('#rosterChips .rchip-n')].map(s=>s.textContent); }
+function rosterSync(){ const opts=rosterNames().map(n=>`<option value="${esc(n)}"></option>`).join(''); document.querySelectorAll('datalist.dl-roster').forEach(dl=>dl.innerHTML=opts); }
+function rosterAdd(){ const inp=document.getElementById('rosterInput'); if(!inp) return; const v=inp.value.trim(); if(!v) return; if(rosterNames().indexOf(v)<0) document.getElementById('rosterChips').insertAdjacentHTML('beforeend', rchipHTML(v)); inp.value=''; inp.focus(); rosterSync(); }
+function rosterDel(btn){ const c=btn.closest('.rchip'); if(c) c.remove(); rosterSync(); }
+function rosterPick(chip){ if(!_lastRosterCell) return; const n=chip.querySelector('.rchip-n').textContent;
+  if(_lastRosterCell.dataset.multi){ let cur=_lastRosterCell.value.split('、').map(s=>s.trim()).filter(Boolean); if(cur.indexOf(n)<0) cur.push(n); _lastRosterCell.value=cur.join('、'); }
+  else _lastRosterCell.value=n;
+  _lastRosterCell.dispatchEvent(new Event('input',{bubbles:true})); _lastRosterCell.focus(); }
+function rowDragStart(e,h){ _dragRow=h.closest('.trow-wrap'); e.dataTransfer.effectAllowed='move'; try{ e.dataTransfer.setData('text/plain',''); }catch(_){} }
+function rowDragOver(e){ if(_dragRow) e.preventDefault(); }
+function rowDrop(e){ if(!_dragRow) return; e.preventDefault(); const tgt=e.currentTarget; if(tgt===_dragRow) return; const box=tgt.parentNode; const rc=tgt.getBoundingClientRect(); const after=(e.clientY-rc.top)>rc.height/2; box.insertBefore(_dragRow, after?tgt.nextSibling:tgt); }
+function rowDragEnd(){ _dragRow=null; }
+
+/* 自製下拉（解決 datalist 選一次後無法再選的 bug；可重複開、可自行打字） */
+let _openCombo=null;
+function closeCombo(){ if(_openCombo){ _openCombo.remove(); _openCombo=null; } }
+function comboOpen(btn){
+  const wrap=btn.parentElement; const inp=wrap.querySelector('input');
+  if(_openCombo && _openCombo.parentElement===wrap){ closeCombo(); return; }
+  closeCombo();
+  const opts = inp.dataset.roster ? rosterNames() : (inp.dataset.opts? inp.dataset.opts.split('||').filter(Boolean) : []);
+  const multi = !!inp.dataset.multi;
+  const sel = multi ? inp.value.split('、').map(s=>s.trim()).filter(Boolean) : [];
+  const pop=document.createElement('div'); pop.className='combo-pop';
+  if(multi){ const h=document.createElement('div'); h.className='combo-empty'; h.textContent='可複選（點名字加入/移除，點空白處關閉）'; pop.appendChild(h); }
+  if(!opts.length){ const d=document.createElement('div'); d.className='combo-empty'; d.textContent='（先在上方人員名單加入，或自行輸入）'; pop.appendChild(d); }
+  else opts.forEach(o=>{ const d=document.createElement('div'); d.className='combo-opt'+(sel.indexOf(o)>=0?' picked':''); d.textContent=o;
+    d.onmousedown=function(ev){ ev.preventDefault();
+      if(multi){ let cur=inp.value.split('、').map(s=>s.trim()).filter(Boolean); const i=cur.indexOf(o); if(i>=0) cur.splice(i,1); else cur.push(o); inp.value=cur.join('、'); inp.dispatchEvent(new Event('input',{bubbles:true})); d.classList.toggle('picked'); }
+      else { inp.value=o; inp.dispatchEvent(new Event('input',{bubbles:true})); closeCombo(); } };
+    pop.appendChild(d); });
+  wrap.appendChild(pop); _openCombo=pop;
+}
+document.addEventListener('mousedown', function(e){ if(_openCombo && !_openCombo.parentElement.contains(e.target)) closeCombo(); });
+
+/* 時間遮罩：只允許 時:分（HH:MM） */
+function timeMask(el){ let d=el.value.replace(/[^0-9]/g,'').slice(0,4); el.value = (d.length>=3)? (d.slice(0,2)+':'+d.slice(2)) : d; }
+
+/* 備註有內容 → 📝 變黃；勾選有打勾 → ☑ 亮起 */
+function noteContentChanged(inp){ const w=inp.closest('.trow-wrap'); const b=w.querySelector('.rbtn[title=備註]'); if(b) b.classList.toggle('has', inp.value.trim()!==''); }
+function chkChanged(cb){ cb.closest('.chk').classList.toggle('on',cb.checked); const w=cb.closest('.trow-wrap'); const b=w.querySelector('.rbtn[title=勾選]'); if(b) b.classList.toggle('chkhas', w.querySelectorAll('.rchecks input:checked').length>0); }
+function taGrow(el){ if(!el) return; el.style.height='auto'; el.style.height=(el.scrollHeight)+'px'; }
+
+/* 時間：上下鈕(±5分)、24時/60分驗證(99:99 跳回原值)、依時間自動排序 */
+function tmin(v){ const m=/^(\d{1,2}):(\d{2})$/.exec(v||''); return m?(+m[1])*60+(+m[2]):99999; }
+function dnum(v){ const m=/^(\d{1,2})\/(\d{1,2})$/.exec(v||''); return m?(+m[1])*100+(+m[2]):99999; }
+function timeStep(btn,dir,idx){ const inp=btn.closest('.time-wrap').querySelector('.c-time'); let m=tmin(inp.value); if(m>=99999) m=0; m=((m+dir*5)%1440+1440)%1440; inp.value=String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); inp.dataset.prev=inp.value; tableSort(idx); }
+function timeCommit(inp,idx){ const m=/^(\d{1,2}):(\d{2})$/.exec(inp.value); if(!inp.value){ inp.dataset.prev=''; } else if(m && +m[1]<=23 && +m[2]<=59){ inp.value=String(+m[1]).padStart(2,'0')+':'+m[2]; inp.dataset.prev=inp.value; } else { inp.value=inp.dataset.prev||''; } tableSort(idx); }
+function dateCommit(inp,idx){ const m=/^(\d{1,2})\/(\d{1,2})$/.exec(inp.value); if(inp.value && (!m || +m[1]>12 || +m[1]<1 || +m[2]>31 || +m[2]<1)){ inp.value=inp.dataset.prev||''; } else { inp.dataset.prev=inp.value; } tableSort(idx); }
+function tableSort(idx){ const t=document.getElementById('tbl'+idx); if(!t) return; const def=TABLE_DEFS[t.dataset.def]||{}; const box=document.getElementById('tblrows'+idx); if(!box) return;
+  const isTime = def.cols && def.cols.some(c=>c.type==='time');
+  const keyOf=(w)=>{ const tr=w.querySelector('.trow'); if(isTime){ const e=tr.querySelector('.c-time'); return tmin(e?e.value:''); } const e=tr.querySelector('.c-date'); return dnum(e?e.value:''); };
+  const wraps=[...box.children];
+  if(def.sections){ let i=0; const out=[]; while(i<wraps.length){ if(wraps[i].querySelector('.c-sec')){ out.push(wraps[i]); i++; continue; } const seg=[]; while(i<wraps.length && !wraps[i].querySelector('.c-sec')){ seg.push(wraps[i]); i++; } seg.sort((a,b)=>keyOf(a)-keyOf(b)); out.push.apply(out,seg); } out.forEach(w=>box.appendChild(w)); }
+  else { wraps.sort((a,b)=>keyOf(a)-keyOf(b)); wraps.forEach(w=>box.appendChild(w)); }
+}
+
+/* 場控者／支援人員：點開彈窗選人（適合 50-60 人，含搜尋；支援人員可複選） */
+let _pickInput=null, _pickMulti=false;
+function openPeoplePicker(btn){ const inp=btn.parentElement.querySelector('input,textarea'); _pickInput=inp; _pickMulti=!!inp.dataset.multi;
+  const names=rosterNames(); const sel=inp.value.split('、').map(s=>s.trim()).filter(Boolean);
+  modal(`<h3 style="margin:0 0 4px">選擇${_pickMulti?'支援人員（可複選）':'場控者'}</h3>
+    <p class="hint" style="margin:0 0 10px">名單來自下方「人員名單」；找不到人請先去那裡新增。</p>
+    <input id="pickSearch" placeholder="🔍 搜尋姓名…" oninput="pickFilter()" style="margin-bottom:10px">
+    <div class="pick-grid" id="pickGrid">${names.length?names.map(n=>`<button type="button" class="pick-chip${sel.indexOf(n)>=0?' on':''}" data-n="${esc(n)}" onclick="pickName(this)">${esc(n)}</button>`).join(''):'<span class="hint">名單是空的，請先到「人員名單」加入。</span>'}</div>
+    <div class="pick-sel" id="pickSel"${_pickMulti?'':' style="display:none"'}>已選：<b>${esc(sel.join('、')||'—')}</b></div>
+    <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn pri" onclick="closeModal()">完成</button></div>`);
+}
+function pickName(b){ const n=b.dataset.n; if(!_pickInput) return;
+  if(_pickMulti){ let cur=_pickInput.value.split('、').map(s=>s.trim()).filter(Boolean); const i=cur.indexOf(n); if(i>=0) cur.splice(i,1); else cur.push(n); _pickInput.value=cur.join('、'); _pickInput.dispatchEvent(new Event('input',{bubbles:true})); b.classList.toggle('on'); const ps=document.getElementById('pickSel'); if(ps) ps.innerHTML='已選：<b>'+esc(cur.join('、')||'—')+'</b>'; }
+  else { _pickInput.value=n; _pickInput.dispatchEvent(new Event('input',{bubbles:true})); closeModal(); } }
+function pickFilter(){ const q=(document.getElementById('pickSearch').value||'').trim(); document.querySelectorAll('#pickGrid .pick-chip').forEach(b=>{ b.style.display=(!q||b.dataset.n.indexOf(q)>=0)?'':'none'; }); }
+
+/* 分段標題列（流程中插入顯眼關鍵主題） */
+function tableAddSection(idx){ const t=document.getElementById('tbl'+idx); if(!t) return; const box=document.getElementById('tblrows'+idx);
+  box.insertAdjacentHTML('beforeend', tableRowHTML(idx, TABLE_DEFS[t.dataset.def], {sec:''})); tableRecalc(idx);
+  const rows=box.querySelectorAll('.trow-wrap'); const last=rows[rows.length-1].querySelector('.c-sec'); if(last) last.focus(); }
 
 function saveModule(){
   const e=getEvent(state.eventId); const c=state.code; const m=e.modules[c];
@@ -557,8 +921,23 @@ function saveModule(){
       });
       if(arr.length) values[f.key]=arr; else delete values[f.key];
     }
+    else if(f.type==='table'){
+      const def=TABLE_DEFS[f.defKey]||{cols:[]}; const arr=[];
+      document.querySelectorAll('#tblrows'+f.idx+' .trow-wrap').forEach(wrp=>{
+        const secEl=wrp.querySelector('.c-sec');
+        if(secEl){ const sv=secEl.value.trim(); if(sv) arr.push({sec:sv}); return; }
+        const tr=wrp.querySelector('.trow'); const row={}; let any=false;
+        def.cols.forEach(col=>{ const el=tr.querySelector('[data-c="'+col.k+'"]'); const v=el?el.value.trim():''; if(v && v!==col.def){ row[col.k]=v; any=true; } });
+        if(def.note){ const ne=wrp.querySelector('.c-note'); const nv=ne?ne.value.trim():''; if(nv){ row.note=nv; any=true; } }
+        if(def.checks){ const ch={}; let has=false; wrp.querySelectorAll('.rchecks input[type=checkbox]').forEach(cb=>{ if(cb.checked){ ch[cb.dataset.chk]=true; has=true; } }); if(has){ row.checks=ch; any=true; } }
+        if(any) arr.push(row);
+      });
+      if(arr.length) values[f.key]=arr; else delete values[f.key];
+    }
+    else if(f.type==='roster'){ const a=[...document.querySelectorAll('#rosterChips .rchip-n')].map(s=>s.textContent.trim()).filter(Boolean); if(a.length) values[f.key]=a; else delete values[f.key]; }
     else if(f.type==='multi'){ const a=[...document.querySelectorAll('.m'+f.idx+':checked')].map(x=>x.value); if(a.length) values[f.key]=a; else delete values[f.key]; }
     else if(f.type==='bool'){ if(document.getElementById('fld'+f.idx).checked) values[f.key]=true; else delete values[f.key]; }
+    else if(f.type==='statebtn'){ const el=document.getElementById('fld'+f.idx); const v=el?el.dataset.val:''; if(v) values[f.key]=v; else delete values[f.key]; }
     else { const el=document.getElementById('fld'+f.idx); const v=el?el.value:''; if(v!==''&&v!=null) values[f.key]=v; else delete values[f.key]; }
   });
   m.values=values; m.owner=document.getElementById('ownerInput').value.trim();
