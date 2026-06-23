@@ -235,6 +235,31 @@
   body.viewonly .btn.pri{display:none}
   body.viewonly .card input, body.viewonly .card textarea, body.viewonly .card select{pointer-events:none; background:#f3f2ee; color:#555}
   body.viewonly .dotbtn, body.viewonly .stbtn, body.viewonly .addrow, body.viewonly .rbtn, body.viewonly .dragh, body.viewonly .combo-btn, body.viewonly .cdate-btn, body.viewonly .time-spin, body.viewonly .qchip, body.viewonly .cattab{pointer-events:none; opacity:.45}
+
+  /* ===== 手機版（≤640px）===== */
+  @media (max-width:640px){
+    /* 多欄表格：改成可左右滑動，欄位維持寬度不被壓扁 */
+    .tbl{overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:3px}
+    .tbl>.tbl-head, .tbl>.tbl-rows, .tbl>.tbl-addbar, .tbl>.tbl-foot{min-width:680px}
+    .fld>label{font-size:12.5px}
+    /* 頂列：縮小、允許換行，避免擠爆 */
+    .top{flex-wrap:wrap; gap:6px 8px; padding:8px 12px}
+    .top .logo{font-size:13px}
+    .vbadge{display:none}
+    .top select{max-width:36vw; font-size:12px; padding:5px 6px}
+    .top #authBox{gap:5px}
+    .top #authBox .meinfo{font-size:11px}
+    .top #authBox button{padding:4px 7px; font-size:11px}
+    /* 卡片/數字稍微縮，整體更好讀 */
+    .wrap{padding:0 10px 90px}
+    .card{padding:12px 12px}
+    .stat{padding:8px 9px}
+    .stat .v{font-size:13px}
+    .budbal{font-size:17px}
+    h2{font-size:16px}
+    /* 活動列表日期欄縮一點 */
+    .evt .dt{width:46px; padding-right:9px}
+  }
 </style>
 </head>
 <body>
@@ -256,7 +281,7 @@
    活動分「公益活動 / 組織活動」，自動切換顯示的欄位
    後續：接 Firebase(登入+授權名單+即時同步) → LINE 通知
    ============================================================ */
-const APP_VERSION = 'v0.6.0';
+const APP_VERSION = 'v0.6.1';
 
 /* 品牌設定：白標時只改這一塊 ------------------------------------ */
 const BRAND = { name:'活動強力助手2026', primary:'#1f5fa5' };
