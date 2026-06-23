@@ -217,6 +217,24 @@
   .grp-coll{width:100%; text-align:left; background:transparent; border:none; padding:0; cursor:pointer}
   .grp-caret{font-size:10px; color:var(--brand)}
   .grp-body{margin-bottom:4px}
+
+  /* 登入閘門 + 唯讀模式 + 頂列身分 */
+  .gate{position:fixed; inset:0; z-index:200; background:linear-gradient(135deg,#1f5fa5,#0c447c); display:flex; align-items:center; justify-content:center; padding:20px}
+  .gatebox{background:#fff; border-radius:16px; padding:28px 24px; width:100%; max-width:380px; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,.35)}
+  .gatetitle{font-size:20px; font-weight:800; color:var(--brand-d)}
+  .gatesub{font-size:13px; color:var(--mut); margin:4px 0 20px}
+  .gatebtn{width:100%; justify-content:center; padding:13px; font-size:15px}
+  .gateor{color:var(--hint); font-size:12px; margin:16px 0}
+  .gatepw{display:flex; gap:8px}
+  .gatepw input{flex:1}
+  .gateerr{color:#e24b4a; font-size:13px; margin-top:12px; min-height:18px}
+  .top #authBox{display:flex; align-items:center; gap:7px}
+  .top #authBox .meinfo{font-size:12px; opacity:.95; white-space:nowrap}
+  .top #authBox button{background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.4); color:#fff; padding:5px 10px; border-radius:8px; font-size:12px; cursor:pointer}
+  body.viewonly .savebar{display:none}
+  body.viewonly .btn.pri{display:none}
+  body.viewonly .card input, body.viewonly .card textarea, body.viewonly .card select{pointer-events:none; background:#f3f2ee; color:#555}
+  body.viewonly .dotbtn, body.viewonly .stbtn, body.viewonly .addrow, body.viewonly .rbtn, body.viewonly .dragh, body.viewonly .combo-btn, body.viewonly .cdate-btn, body.viewonly .time-spin, body.viewonly .qchip, body.viewonly .cattab{pointer-events:none; opacity:.45}
 </style>
 </head>
 <body>
@@ -224,10 +242,13 @@
   <div class="logo" id="brandName">活動強力助手2026</div>
   <div class="sp"></div>
   <select id="orgSel" title="組織"></select>
-  <select id="roleSel" title="目前身分"></select>
+  <span id="authBox"></span>
 </div>
 <div class="wrap" id="app"></div>
 
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script>
 /* ============================================================
    2026 活動智能管理工具  —  MVP (本機版 / localStorage)
@@ -235,7 +256,7 @@
    活動分「公益活動 / 組織活動」，自動切換顯示的欄位
    後續：接 Firebase(登入+授權名單+即時同步) → LINE 通知
    ============================================================ */
-const APP_VERSION = 'v0.5.5';
+const APP_VERSION = 'v0.6.0';
 
 /* 品牌設定：白標時只改這一塊 ------------------------------------ */
 const BRAND = { name:'活動強力助手2026', primary:'#1f5fa5' };
@@ -407,7 +428,10 @@ function load(){
   try{ const d=JSON.parse(localStorage.getItem(KEY)); if(d&&d.orgs) return d; }catch(e){}
   return seed();
 }
-function save(){ localStorage.setItem(KEY, JSON.stringify(DB)); }
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(DB)); }catch(e){}
+  if(FB && CAN_EDIT){ FB.db.collection('appdata').doc('shared').set({ json:JSON.stringify(DB), updatedAt:Date.now(), updatedBy:CURRENT_USER||'' }).catch(function(e){ console.warn('cloud save fail',e); toast('雲端儲存失敗（檢查網路/權限）'); }); }
+}
 function uid(){ return 'id'+Math.random().toString(36).slice(2,9); }
 function blankModules(){ const m={}; CODES.forEach(c=> m[c]={status:'not', owner:'', values:{}}); return m; }
 
@@ -524,8 +548,7 @@ function renderOrgRole(){
   const os=document.getElementById('orgSel');
   os.innerHTML = DB.orgs.map(o=>`<option value="${o.id}" ${o.id===DB.ui.orgId?'selected':''}>${esc(o.name)}</option>`).join('')
     + `<option value="__new">＋ 新增組織…</option>`;
-  const rs=document.getElementById('roleSel');
-  rs.innerHTML = ROLES.map(r=>`<option ${r===DB.ui.role?'selected':''}>${esc(r)}</option>`).join('');
+  renderAuthBox();
 }
 
 /* ---------- 活動列表 ---------- */
@@ -910,6 +933,7 @@ function tableAddSection(idx){ const t=document.getElementById('tbl'+idx); if(!t
   const rows=box.querySelectorAll('.trow-wrap'); const last=rows[rows.length-1].querySelector('.c-sec'); if(last) last.focus(); }
 
 function saveModule(){
+  if(!CAN_EDIT) return toast('觀看模式，無法編輯');
   const e=getEvent(state.eventId); const c=state.code; const m=e.modules[c];
   const values={...m.values};
   FIELD_META.forEach(f=>{
@@ -953,8 +977,8 @@ function openEvent(id){ state.view='dashboard'; state.eventId=id; render(); wind
 function openModule(c){ state.view='module'; state.code=c; render(); window.scrollTo(0,0); }
 
 let _efCat='公益活動', _efType='';
-function newEvent(){ eventForm(); }
-function editEvent(id){ eventForm(getEvent(id)); }
+function newEvent(){ if(!CAN_EDIT) return toast('觀看模式，無法編輯'); eventForm(); }
+function editEvent(id){ if(!CAN_EDIT) return toast('觀看模式，無法編輯'); eventForm(getEvent(id)); }
 function eventForm(ev){
   const isNew=!ev; ev=ev||{};
   _efCat = ev.category || '公益活動'; _efType = ev.type || '';
@@ -1003,7 +1027,6 @@ document.getElementById('orgSel').addEventListener('change', function(){
   if(this.value==='__new'){ const n=prompt('新組織名稱：'); if(n&&n.trim()){ const o={id:uid(),name:n.trim()}; DB.orgs.push(o); DB.ui.orgId=o.id; save(); } goEvents(); return; }
   DB.ui.orgId=this.value; save(); goEvents();
 });
-document.getElementById('roleSel').addEventListener('change', function(){ DB.ui.role=this.value; save(); });
 
 function exportDB(){
   const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
@@ -1032,7 +1055,85 @@ function toast(t){
   setTimeout(()=>{ d.style.opacity='0'; setTimeout(()=>d.remove(),250); },1600);
 }
 
-render();
+/* ============================================================
+   Firebase：Google 登入 + Firestore 雲端同步 + 三層權限
+   ============================================================ */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBK5elnV3BtWnJfQXazV3P5ucmhxVLPWEo",
+  authDomain: "activity-helper-2026.firebaseapp.com",
+  projectId: "activity-helper-2026",
+  storageBucket: "activity-helper-2026.firebasestorage.app",
+  messagingSenderId: "134028924830",
+  appId: "1:134028924830:web:f29f4b3685a07c587ae88f"
+};
+const ADMIN_EMAIL = 'covernself@gmail.com';
+const VIEW_PASSWORD = '131419';
+let FB=null, CAN_EDIT=false, IS_ADMIN=false, CURRENT_USER='', _dataStarted=false, _firstSnap=false;
+
+function boot(){
+  if(location.protocol==='file:' || typeof firebase==='undefined'){ localMode(); return; }
+  try{ firebase.initializeApp(FIREBASE_CONFIG); FB={auth:firebase.auth(), db:firebase.firestore()}; }
+  catch(e){ console.warn('Firebase init fail',e); localMode(); return; }
+  showGate();
+  FB.auth.onAuthStateChanged(function(user){ if(user) onSignedIn(user); });
+}
+function localMode(){ DB=load(); CAN_EDIT=true; IS_ADMIN=false; CURRENT_USER='本機'; document.body.classList.remove('viewonly'); render(); }
+
+function googleLogin(){ if(!FB) return; FB.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(e){ var el=document.getElementById('gateErr'); if(el) el.textContent='登入失敗：'+(e.code||e.message||''); }); }
+function enterViewer(){ var i=document.getElementById('gatePw'); if(!i) return; if((i.value||'').trim()!==VIEW_PASSWORD){ var e=document.getElementById('gateErr'); if(e) e.textContent='密碼不正確'; return; } CURRENT_USER='訪客（觀看）'; IS_ADMIN=false; CAN_EDIT=false; afterAuth(); }
+function onSignedIn(user){
+  var email=(user.email||'').toLowerCase(); CURRENT_USER=user.email||'';
+  if(email===ADMIN_EMAIL){ IS_ADMIN=true; CAN_EDIT=true; afterAuth(); return; }
+  FB.db.collection('access').doc(email).get().then(function(d){ var role=d.exists?(d.data().role||'view'):'view'; IS_ADMIN=false; CAN_EDIT=(role==='edit'); afterAuth(); })
+    .catch(function(){ IS_ADMIN=false; CAN_EDIT=false; afterAuth(); });
+}
+function afterAuth(){ hideGate(); document.body.classList.toggle('viewonly', !CAN_EDIT); if(!_dataStarted){ _dataStarted=true; startData(); } else render(); }
+function startData(){
+  FB.db.collection('appdata').doc('shared').onSnapshot(function(snap){
+    if(snap.exists){ try{ DB=JSON.parse(snap.data().json); }catch(e){ if(!DB||!DB.orgs) DB=seed(); } }
+    else { if(!DB||!DB.orgs) DB=seed(); }
+    if(!_firstSnap){ _firstSnap=true; render(); }
+    else if(state.view!=='module'){ render(); }
+  }, function(err){ console.warn('snapshot error',err); if(!DB||!DB.orgs){ DB=load(); render(); } });
+}
+function fbLogout(){ try{ if(FB&&FB.auth) FB.auth.signOut(); }catch(e){} location.reload(); }
+
+function showGate(){
+  if(document.getElementById('gate')) return;
+  var g=document.createElement('div'); g.id='gate'; g.className='gate';
+  g.innerHTML='<div class="gatebox"><div class="gatetitle">活動強力助手2026</div><div class="gatesub">請選擇進入方式</div>'
+   +'<button class="btn pri gatebtn" onclick="googleLogin()">使用 Google 登入（編輯／管理）</button>'
+   +'<div class="gateor">— 或 —</div>'
+   +'<div class="gatepw"><input id="gatePw" type="password" placeholder="輸入觀看密碼" onkeydown="if(event.key===\'Enter\')enterViewer()"><button class="btn" onclick="enterViewer()">進入觀看</button></div>'
+   +'<div id="gateErr" class="gateerr"></div></div>';
+  document.body.appendChild(g);
+}
+function hideGate(){ var g=document.getElementById('gate'); if(g) g.remove(); }
+function renderAuthBox(){
+  var b=document.getElementById('authBox'); if(!b) return;
+  if(!FB){ b.innerHTML=''; return; }
+  var label = CAN_EDIT ? (IS_ADMIN?'👑 管理員':'✏️ 可編輯') : '👁 觀看';
+  var admin = IS_ADMIN ? '<button onclick="openAccessAdmin()">授權</button>' : '';
+  b.innerHTML='<span class="meinfo">'+label+'</span>'+admin+'<button onclick="fbLogout()">登出</button>';
+}
+
+/* 管理員：授權名單（加 email、設可編輯/只看） */
+function openAccessAdmin(){
+  if(!IS_ADMIN||!FB) return;
+  FB.db.collection('access').get().then(function(qs){
+    var rows=''; qs.forEach(function(d){ rows+=accRow(d.id,(d.data().role||'view')); });
+    modal('<h3 style="margin:0 0 8px">授權名單</h3>'
+      +'<p class="hint" style="margin:0 0 12px">加入別人的 Google email，設定「可編輯」或「只看」。你（'+esc(ADMIN_EMAIL)+'）永遠是管理員。</p>'
+      +'<div id="accList">'+(rows||'<p class="hint">目前沒有其他授權者</p>')+'</div><div class="sep"></div>'
+      +'<div class="row" style="gap:6px"><input id="accEmail" placeholder="對方的 Google email" style="flex:1"><select id="accRole" style="width:auto"><option value="edit">可編輯</option><option value="view">只看</option></select><button class="btn pri" onclick="accAdd()">加入</button></div>');
+  });
+}
+function accRow(email,role){ return '<div class="row" style="justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--line)"><span style="word-break:break-all">'+esc(email)+'</span><span class="row" style="gap:6px;flex:none"><select onchange="accSet(\''+esc(email)+'\',this.value)" style="width:auto"><option value="edit"'+(role==='edit'?' selected':'')+'>可編輯</option><option value="view"'+(role==='view'?' selected':'')+'>只看</option></select><button class="btn sm" style="color:#e24b4a;flex:none" onclick="accDel(\''+esc(email)+'\')">移除</button></span></div>'; }
+function accAdd(){ var e=(document.getElementById('accEmail').value||'').trim().toLowerCase(); var r=document.getElementById('accRole').value; if(!e||e.indexOf('@')<0){ alert('請輸入正確的 Google email'); return; } FB.db.collection('access').doc(e).set({role:r}).then(function(){ toast('已加入 '+e); openAccessAdmin(); }).catch(function(x){ alert('失敗：'+x.message); }); }
+function accSet(email,role){ FB.db.collection('access').doc(email).set({role:role}).then(function(){ toast('已更新 '+email); }); }
+function accDel(email){ if(!confirm('移除 '+email+'？')) return; FB.db.collection('access').doc(email).delete().then(function(){ toast('已移除'); openAccessAdmin(); }); }
+
+boot();
 </script>
 </body>
 </html>
