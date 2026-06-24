@@ -281,7 +281,7 @@
    活動分「公益活動 / 組織活動」，自動切換顯示的欄位
    後續：接 Firebase(登入+授權名單+即時同步) → LINE 通知
    ============================================================ */
-const APP_VERSION = 'v0.6.1';
+const APP_VERSION = 'v0.6.2';
 
 /* 品牌設定：白標時只改這一塊 ------------------------------------ */
 const BRAND = { name:'活動強力助手2026', primary:'#1f5fa5' };
@@ -694,6 +694,7 @@ function renderModule(){
       <div class="row" style="justify-content:space-between"><h3>${c}　${esc(sc.title)}</h3>
         <span class="pill" style="background:${ph.bg};color:${ph.color}">${ph.name}</span></div>
       <p class="hint" style="margin:6px 0 0">${esc(sc.purpose)}</p>
+      ${(c==='B2'||c==='C1')?`<button class="btn sm" style="margin-top:9px" onclick="exportPDF()">📄 匯出 PDF（可直接傳給別人）</button>`:''}
     </div>
     <div class="card">
       <div class="row" style="gap:12px; align-items:flex-end">
@@ -1078,6 +1079,90 @@ function toast(t){
   d.style.cssText='position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#1c1c1a;color:#fff;padding:10px 18px;border-radius:24px;font-size:14px;z-index:99;opacity:0;transition:opacity .2s';
   document.body.appendChild(d); requestAnimationFrame(()=>d.style.opacity='1');
   setTimeout(()=>{ d.style.opacity='0'; setTimeout(()=>d.remove(),250); },1600);
+}
+
+/* ============================================================
+   匯出 PDF（B2 當日時間流程 / C1 實支開銷）：點才載入 html2pdf
+   ============================================================ */
+function ensureHtml2pdf(cb){
+  if(window.html2pdf){ cb(); return; }
+  toast('PDF 產生中…');
+  var s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js';
+  s.onload=function(){ cb(); }; s.onerror=function(){ toast('PDF 元件載入失敗，請檢查網路'); };
+  document.head.appendChild(s);
+}
+function pdfMoney(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
+function pcell(w){ return 'border:1px solid #e0ddd4;padding:6px 8px;vertical-align:top;'+(w?('width:'+w+';'):''); }
+function pdfHead(e){
+  return '<div style="border-bottom:2px solid #1f5fa5;padding-bottom:10px;margin-bottom:14px">'
+    +'<div style="font-size:20px;font-weight:800;color:#0c447c">'+esc(e.name||'')+'</div>'
+    +'<div style="font-size:12px;color:#555;margin-top:4px">'+esc(e.type||'')+'　日期 '+esc(e.date||'-')+'　地點 '+esc(e.place||'-')+'　總召 '+esc(e.lead||'-')+'</div></div>';
+}
+function pdfRundown(e){
+  var rows=(e.modules.B2.values['當日時間流程::']||[]), body='';
+  rows.forEach(function(r){
+    if(r.sec!=null){ body+='<tr><td colspan="5" style="background:#0f6e56;color:#fff;font-weight:800;padding:7px 9px;font-size:13.5px">'+esc(r.sec)+'</td></tr>'; return; }
+    body+='<tr>'
+      +'<td style="'+pcell('64px')+'text-align:center">'+esc(r.time||'')+'</td>'
+      +'<td style="'+pcell('108px')+'font-weight:600">'+esc(r.topic||'')+'</td>'
+      +'<td style="'+pcell('')+'">'+esc(r.content||'').replace(/\n/g,'<br>')+'</td>'
+      +'<td style="'+pcell('92px')+'">'+esc(r.owner||'')+'</td>'
+      +'<td style="'+pcell('108px')+'">'+esc(r.support||'')+'</td></tr>';
+  });
+  return pdfHead(e)
+    +'<div style="font-size:15px;font-weight:800;margin:0 0 8px;color:#0f6e56">當日時間流程</div>'
+    +'<table style="width:100%;border-collapse:collapse;font-size:12px">'
+    +'<thead><tr>'+['時間','主題','內容','場控者','支援人員'].map(function(h){return '<th style="background:#eef4fb;border:1px solid #d2cfc4;padding:6px 8px;text-align:left;font-size:11px">'+h+'</th>';}).join('')+'</tr></thead>'
+    +'<tbody>'+body+'</tbody></table>'
+    +'<div style="margin-top:14px;font-size:10px;color:#999;text-align:right">由 活動強力助手2026 產出 · '+todayStr()+'</div>';
+}
+function pdfBudget(e){
+  var v=e.modules.C1.values;
+  function sect(title,rows,catKey,color){
+    var body='', sum=0;
+    (rows||[]).forEach(function(r){
+      var p=parseFloat(r.price), q=parseFloat(r.qty); if(isNaN(q)||q<=0)q=1; var sub=isNaN(p)?0:p*q; sum+=sub;
+      body+='<tr>'
+        +'<td style="'+pcell('50px')+'text-align:center">'+esc(r.date||'')+'</td>'
+        +'<td style="'+pcell('78px')+'">'+esc(r[catKey]||'')+'</td>'
+        +'<td style="'+pcell('')+'">'+esc(r.name||'')+'</td>'
+        +'<td style="'+pcell('108px')+'color:#666">'+esc(r.spec||'')+'</td>'
+        +'<td style="'+pcell('62px')+'text-align:right">'+(isNaN(p)?'':pdfMoney(p))+'</td>'
+        +'<td style="'+pcell('38px')+'text-align:center">'+esc(r.qty||'1')+'</td>'
+        +'<td style="'+pcell('70px')+'text-align:right;font-weight:600">'+(isNaN(p)?'':pdfMoney(sub))+'</td></tr>';
+    });
+    return '<div style="font-size:14px;font-weight:800;margin:14px 0 6px;color:'+color+'">'+title+'</div>'
+      +'<table style="width:100%;border-collapse:collapse;font-size:11.5px">'
+      +'<thead><tr>'+['日期','項目','名稱','規格','金額','數量','小計'].map(function(h){return '<th style="background:#f3f2ee;border:1px solid #d2cfc4;padding:5px 7px;text-align:left;font-size:10.5px">'+h+'</th>';}).join('')+'</tr></thead>'
+      +'<tbody>'+body+'</tbody>'
+      +'<tfoot><tr><td colspan="6" style="'+pcell('')+'text-align:right;font-weight:700">合計</td><td style="'+pcell('70px')+'text-align:right;font-weight:800">'+pdfMoney(sum)+'</td></tr></tfoot></table>';
+  }
+  var inSum=sumLineItems(v,'實際收入'), outSum=sumLineItems(v,'實際支出'), bal=inSum-outSum;
+  return pdfHead(e)
+    +'<div style="font-size:15px;font-weight:800;color:#3c3489">實支開銷</div>'
+    +sect('實際收入', v['實際收入::'], 'src', '#2fa36b')
+    +sect('實際支出', v['實際支出::'], 'cat', '#d85a30')
+    +'<div style="margin-top:14px;display:flex;gap:10px">'
+      +'<div style="flex:1;background:#e1f5ee;border-radius:8px;padding:10px 12px"><div style="font-size:11px;color:#555">實際收入</div><div style="font-size:16px;font-weight:800">'+pdfMoney(inSum)+'</div></div>'
+      +'<div style="flex:1;background:#faece7;border-radius:8px;padding:10px 12px"><div style="font-size:11px;color:#555">實際支出</div><div style="font-size:16px;font-weight:800">'+pdfMoney(outSum)+'</div></div>'
+      +'<div style="flex:1;background:#eef4fb;border-radius:8px;padding:10px 12px"><div style="font-size:11px;color:#555">結餘</div><div style="font-size:16px;font-weight:800;color:'+(bal<0?'#e24b4a':'#2fa36b')+'">'+pdfMoney(bal)+'</div></div>'
+    +'</div>'
+    +'<div style="margin-top:14px;font-size:10px;color:#999;text-align:right">由 活動強力助手2026 產出 · '+todayStr()+'</div>';
+}
+function exportPDF(){
+  var e=getEvent(state.eventId), c=state.code; if(!e) return;
+  var html, fname;
+  if(c==='B2'){ html=pdfRundown(e); fname=(e.name||'活動')+'_當日時間流程.pdf'; }
+  else if(c==='C1'){ html=pdfBudget(e); fname=(e.name||'活動')+'_實支開銷.pdf'; }
+  else return;
+  var wrap=document.createElement('div');
+  wrap.style.cssText='position:fixed;left:-99999px;top:0;width:760px;padding:28px;background:#fff;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;color:#1c1c1a;box-sizing:border-box';
+  wrap.innerHTML='<style>tr{page-break-inside:avoid}</style>'+html;
+  document.body.appendChild(wrap);
+  ensureHtml2pdf(function(){
+    html2pdf().set({ margin:[8,8,10,8], filename:fname, image:{type:'jpeg',quality:0.96}, html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}, pagebreak:{mode:['css','legacy']} })
+      .from(wrap).save().then(function(){ wrap.remove(); }).catch(function(){ wrap.remove(); toast('PDF 產生失敗'); });
+  });
 }
 
 /* ============================================================
